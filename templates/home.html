@@ -16,13 +16,12 @@
                     Assess your likelihood of diabetes in seconds using verified machine learning models trained on clinical physiological data. Get instant risk probability scores, parameter comparisons, customized 7-day meal plans, and doctor advisories.
                 </p>
                 <div class="d-flex flex-wrap gap-3 justify-content-center justify-content-lg-start">
-                    {% if current_user.is_authenticated %}
-                    <a href="{{ url_for('predict') }}" class="btn btn-warning btn-lg fw-bold rounded-pill px-4 shadow">
-                        <i class="bi bi-cpu me-2"></i>Start Free Risk Assessment
+                    <a href="#assessment-form" class="btn btn-warning btn-lg fw-bold rounded-pill px-4 shadow">
+                        <i class="bi bi-cpu me-2"></i>Start Risk Assessment Below
                     </a>
-                    {% else %}
-                    <a href="{{ url_for('signup') }}" class="btn btn-warning btn-lg fw-bold rounded-pill px-4 shadow">
-                        <i class="bi bi-person-plus-fill me-2"></i>Get Started — Sign Up
+                    {% if not current_user.is_authenticated %}
+                    <a href="{{ url_for('signup') }}" class="btn btn-outline-light btn-lg fw-semibold rounded-pill px-4">
+                        <i class="bi bi-person-plus-fill me-2"></i>Sign Up
                     </a>
                     <a href="{{ url_for('login') }}" class="btn btn-outline-light btn-lg fw-semibold rounded-pill px-4">
                         <i class="bi bi-box-arrow-in-right me-2"></i>Log In
@@ -67,6 +66,11 @@
         </div>
     </div>
 </section>
+
+<!-- Interactive Diabetes Risk Assessment Form -->
+<div class="container my-5" id="assessment-form">
+    {% include 'components/assessment_form.html' %}
+</div>
 
 <!-- Key System Features Grid -->
 <div class="container my-5">

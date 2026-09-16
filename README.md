@@ -43,8 +43,8 @@ The system predicts diabetes risk based on 8 clinical physiological parameters, 
 
 ### 1. Clone & Navigate
 ```bash
-git clone https://github.com/<your-username>/diabetes-detection-system.git
-cd diabetes-detection-system
+git clone https://github.com/Atikbhas/Diabetes-Detection-System.git
+cd Diabetes-Detection-System
 ```
 
 ### 2. Install Dependencies
@@ -81,11 +81,14 @@ Open **`http://127.0.0.1:5000/`** in your browser.
 │   └── js/main.js              # Interactive BMI calculator script
 └── templates/
     ├── base.html               # Shared layout & navbar
-    ├── home.html               # Landing page
-    ├── predict.html            # Form with guidance & BMI calculator
+    ├── home.html               # Landing page with embedded assessment form
+    ├── stats.html              # Global & India diabetes statistics page
+    ├── predict.html            # Dedicated assessment form
     ├── result.html             # Outcome, charts, diet plan & doctor advisory
     ├── history.html            # User history log
     ├── feedback.html           # User feedback page
+    ├── components/
+    │   └── assessment_form.html# Reusable form component
     └── admin/
         └── dashboard.html      # Protected Admin Dashboard
 ```

@@ -1,4 +1,3 @@
-
 import os
 import io
 import base64
@@ -6,15 +5,15 @@ import pickle
 import sqlite3
 import numpy as np
 import pandas as pd
-import matplotlib
+import matplotlib  # type: ignore[import-not-found]
 matplotlib.use('Agg')  # Non-interactive backend for server-side chart rendering
-import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt  # type: ignore[import-not-found]
 
-from flask import (
+from flask import (  # type: ignore[import-not-found]
     Flask, render_template, request, redirect, 
-    url_for, flash, send_file, abort
+    url_for, flash, send_file, abort, session
 )
-from flask_login import (
+from flask_login import (  # type: ignore[import-not-found]
     LoginManager, UserMixin, login_user, 
     logout_user, login_required, current_user
 )
@@ -38,7 +37,7 @@ from model.train_model import train_and_save_model
 from init_db import init_database
 
 app = Flask(__name__)
-app.secret_key = 'dds_secure_antigravity_secret_key_2026'
+app.secret_key = 'diabetes_detection_system_secret_key_2026'
 
 # Setup Flask-Login
 login_manager = LoginManager()
@@ -286,15 +285,54 @@ def create_pdf_report(user_name, user_email, pred_row, risk_chart_bytes, comp_ch
     pdf_buf.seek(0)
     return pdf_buf
 
+# Prediction Execution & DB Helper
+def process_prediction_and_save(user_id, form_dict):
+    pregnancies = int(form_dict.get('pregnancies', 0))
+    glucose = float(form_dict.get('glucose', 0.0))
+    blood_pressure = float(form_dict.get('blood_pressure', 0.0))
+    skin_thickness = float(form_dict.get('skin_thickness', 0.0))
+    insulin = float(form_dict.get('insulin', 0.0))
+    bmi = float(form_dict.get('bmi', 0.0))
+    diabetes_pedigree = float(form_dict.get('diabetes_pedigree', 0.0))
+    age = int(form_dict.get('age', 0))
+    
+    input_features = np.array([[
+        pregnancies, glucose, blood_pressure, 
+        skin_thickness, insulin, bmi, 
+        diabetes_pedigree, age
+    ]])
+    
+    scaled_features = ml_scaler.transform(input_features)
+    pred_class = ml_model.predict(scaled_features)[0]
+    pred_proba = ml_model.predict_proba(scaled_features)[0][1] * 100.0
+    
+    result_str = 'Diabetic' if pred_class == 1 else 'Not Diabetic'
+    
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute('''
+        INSERT INTO predictions (user_id, pregnancies, glucose, blood_pressure, skin_thickness, insulin, bmi, diabetes_pedigree, age, result, probability)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    ''', (user_id, pregnancies, glucose, blood_pressure, skin_thickness, insulin, bmi, diabetes_pedigree, age, result_str, round(pred_proba, 2)))
+    pred_id = cursor.lastrowid
+    conn.commit()
+    conn.close()
+    
+    return pred_id
+
 # ROUTES
 
 @app.route('/')
 def home():
-    return render_template('home.html')
+    return render_template('home.html', guidance=FIELD_GUIDANCE)
 
 @app.route('/about')
 def about():
     return render_template('about.html')
+
+@app.route('/stats')
+def stats():
+    return render_template('stats.html')
 
 @app.route('/contact', methods=['GET', 'POST'])
 def contact():
@@ -344,13 +382,23 @@ def signup():
             ''', (username, email, pwd_hash))
             conn.commit()
             
-            # Fetch newly created user
             user_row = conn.execute('SELECT * FROM users WHERE username = ?', (username,)).fetchone()
             conn.close()
             
             user_obj = User(user_row['id'], user_row['username'], user_row['email'], user_row['is_admin'])
             login_user(user_obj)
             flash('Account created successfully! Welcome to Diabetes Detection System.', 'success')
+            
+            # Auto-process pending prediction if guest filled form prior to signup
+            pending_pred = session.pop('pending_prediction', None)
+            if pending_pred:
+                try:
+                    pred_id = process_prediction_and_save(user_obj.id, pending_pred)
+                    flash('Your risk assessment report has been generated successfully!', 'success')
+                    return redirect(url_for('result', pred_id=pred_id))
+                except Exception as e:
+                    flash(f'Error processing your saved assessment: {str(e)}', 'danger')
+                    
             return redirect(url_for('predict'))
         except sqlite3.IntegrityError:
             conn.close()
@@ -378,6 +426,17 @@ def login():
             user_obj = User(user_row['id'], user_row['username'], user_row['email'], user_row['is_admin'])
             login_user(user_obj)
             flash(f'Welcome back, {user_obj.username}!', 'success')
+            
+            # Auto-process pending prediction if guest filled form prior to login
+            pending_pred = session.pop('pending_prediction', None)
+            if pending_pred:
+                try:
+                    pred_id = process_prediction_and_save(user_obj.id, pending_pred)
+                    flash('Your risk assessment report has been generated successfully!', 'success')
+                    return redirect(url_for('result', pred_id=pred_id))
+                except Exception as e:
+                    flash(f'Error processing your saved assessment: {str(e)}', 'danger')
+
             next_page = request.args.get('next')
             if user_obj.is_admin and not next_page:
                 return redirect(url_for('admin_dashboard'))
@@ -395,44 +454,26 @@ def logout():
     return redirect(url_for('home'))
 
 @app.route('/predict', methods=['GET', 'POST'])
-@login_required
 def predict():
     if request.method == 'POST':
         try:
-            pregnancies = int(request.form.get('pregnancies', 0))
-            glucose = float(request.form.get('glucose', 0.0))
-            blood_pressure = float(request.form.get('blood_pressure', 0.0))
-            skin_thickness = float(request.form.get('skin_thickness', 0.0))
-            insulin = float(request.form.get('insulin', 0.0))
-            bmi = float(request.form.get('bmi', 0.0))
-            diabetes_pedigree = float(request.form.get('diabetes_pedigree', 0.0))
-            age = int(request.form.get('age', 0))
+            form_data = {
+                'pregnancies': request.form.get('pregnancies', 0),
+                'glucose': request.form.get('glucose', 0.0),
+                'blood_pressure': request.form.get('blood_pressure', 0.0),
+                'skin_thickness': request.form.get('skin_thickness', 0.0),
+                'insulin': request.form.get('insulin', 0.0),
+                'bmi': request.form.get('bmi', 0.0),
+                'diabetes_pedigree': request.form.get('diabetes_pedigree', 0.0),
+                'age': request.form.get('age', 0)
+            }
             
-            # Format inputs array for model prediction
-            input_features = np.array([[
-                pregnancies, glucose, blood_pressure, 
-                skin_thickness, insulin, bmi, 
-                diabetes_pedigree, age
-            ]])
-            
-            # Scale features and predict
-            scaled_features = ml_scaler.transform(input_features)
-            pred_class = ml_model.predict(scaled_features)[0]
-            pred_proba = ml_model.predict_proba(scaled_features)[0][1] * 100.0
-            
-            result_str = 'Diabetic' if pred_class == 1 else 'Not Diabetic'
-            
-            # Store in SQLite
-            conn = get_db_connection()
-            cursor = conn.cursor()
-            cursor.execute('''
-                INSERT INTO predictions (user_id, pregnancies, glucose, blood_pressure, skin_thickness, insulin, bmi, diabetes_pedigree, age, result, probability)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-            ''', (current_user.id, pregnancies, glucose, blood_pressure, skin_thickness, insulin, bmi, diabetes_pedigree, age, result_str, round(pred_proba, 2)))
-            pred_id = cursor.lastrowid
-            conn.commit()
-            conn.close()
-            
+            if not current_user.is_authenticated:
+                session['pending_prediction'] = form_data
+                flash('Please log in or sign up to view your personalized risk assessment report.', 'warning')
+                return redirect(url_for('login'))
+                
+            pred_id = process_prediction_and_save(current_user.id, form_data)
             return redirect(url_for('result', pred_id=pred_id))
             
         except Exception as e:

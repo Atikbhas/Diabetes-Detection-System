@@ -12,8 +12,12 @@
                         <i class="bi bi-shield-lock fs-2"></i>
                     </div>
                     <h3 class="fw-bold text-dark">Welcome Back</h3>
-                    <p class="text-muted small">Log in to access risk predictions and history reports.</p>
+                {% if session.get('pending_prediction') %}
+                <div class="alert alert-warning border-0 shadow-sm p-3 small mb-4">
+                    <div class="fw-bold mb-1"><i class="bi bi-clock-history me-1"></i>Assessment Ready to Process:</div>
+                    Log in below to instantly view your ML risk assessment results and personalized report.
                 </div>
+                {% endif %}
 
                 <form action="{{ url_for('login', next=request.args.get('next')) }}" method="POST">
                     <div class="mb-3">

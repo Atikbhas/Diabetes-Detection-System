@@ -1,0 +1,294 @@
+{% extends 'base.html' %}
+
+{% block title %}Diabetes Statistics — India & Global Impact | DDS{% endblock %}
+
+{% block content %}
+<!-- Hero Header Section -->
+<div class="bg-primary text-white py-5 mb-5 shadow-sm">
+    <div class="container">
+        <div class="row align-items-center text-center text-lg-start">
+            <div class="col-lg-8">
+                <span class="badge bg-warning text-dark fw-bold px-3 py-2 rounded-pill mb-3">
+                    <i class="bi bi-globe-americas me-1"></i> Global Health Data Insights
+                </span>
+                <h1 class="display-5 fw-extrabold mb-3">Diabetes Prevalence & Statistics</h1>
+                <p class="lead opacity-90 mb-0">
+                    Comprehensive overview of diabetes impact, patient statistics, and risk ratios in <strong>India</strong> and <strong>Worldwide</strong> based on latest data from IDF Diabetes Atlas and ICMR-INDIAB studies.
+                </p>
+            </div>
+            <div class="col-lg-4 text-center mt-4 mt-lg-0">
+                <div class="p-3 bg-white text-dark rounded-4 shadow-lg text-center">
+                    <div class="text-uppercase small fw-bold text-muted mb-1">Global Undiagnosed Alert</div>
+                    <div class="display-6 fw-bold text-danger">44.7%</div>
+                    <p class="small text-secondary mb-0">Nearly 1 in 2 adults with diabetes remain undiagnosed worldwide.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container my-4">
+    <!-- Top Stat Counter Highlight Grid -->
+    <div class="row g-4 mb-5">
+        <!-- India Patients -->
+        <div class="col-md-6 col-lg-3">
+            <div class="card card-custom border-0 shadow-sm p-4 h-100 text-center border-top border-4 border-danger">
+                <div class="p-3 bg-danger bg-opacity-10 text-danger rounded-circle d-inline-block mx-auto mb-2">
+                    <i class="bi bi-people-fill fs-2"></i>
+                </div>
+                <h2 class="fw-bold text-dark mb-1">101 Million</h2>
+                <div class="badge bg-danger mb-2">India Total Cases</div>
+                <p class="small text-muted mb-0">Adults living with diabetes in India (ICMR-INDIAB Study)</p>
+            </div>
+        </div>
+
+        <!-- India Pre-Diabetic -->
+        <div class="col-md-6 col-lg-3">
+            <div class="card card-custom border-0 shadow-sm p-4 h-100 text-center border-top border-4 border-warning">
+                <div class="p-3 bg-warning bg-opacity-10 text-warning rounded-circle d-inline-block mx-auto mb-2">
+                    <i class="bi bi-exclamation-triangle-fill fs-2"></i>
+                </div>
+                <h2 class="fw-bold text-dark mb-1">136 Million</h2>
+                <div class="badge bg-warning text-dark mb-2">India Pre-Diabetic</div>
+                <p class="small text-muted mb-0">High-risk individuals with impaired glucose tolerance in India</p>
+            </div>
+        </div>
+
+        <!-- Global Total Patients -->
+        <div class="col-md-6 col-lg-3">
+            <div class="card card-custom border-0 shadow-sm p-4 h-100 text-center border-top border-4 border-primary">
+                <div class="p-3 bg-primary bg-opacity-10 text-primary rounded-circle d-inline-block mx-auto mb-2">
+                    <i class="bi bi-globe2 fs-2"></i>
+                </div>
+                <h2 class="fw-bold text-dark mb-1">537 Million</h2>
+                <div class="badge bg-primary mb-2">Global Total Cases</div>
+                <p class="small text-muted mb-0">Adults (ages 20-79) living with diabetes worldwide</p>
+            </div>
+        </div>
+
+        <!-- Global Projected 2045 -->
+        <div class="col-md-6 col-lg-3">
+            <div class="card card-custom border-0 shadow-sm p-4 h-100 text-center border-top border-4 border-info">
+                <div class="p-3 bg-info bg-opacity-10 text-info rounded-circle d-inline-block mx-auto mb-2">
+                    <i class="bi bi-graph-up-arrow fs-2"></i>
+                </div>
+                <h2 class="fw-bold text-dark mb-1">783 Million</h2>
+                <div class="badge bg-info text-dark mb-2">Projected Global (2045)</div>
+                <p class="small text-muted mb-0">Expected rise in global diabetes burden (+46% increase)</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section 1: Detailed India Statistics -->
+    <div class="card card-custom border-0 shadow-sm p-4 p-md-5 mb-5 bg-white">
+        <div class="d-flex flex-wrap align-items-center justify-content-between mb-4 pb-3 border-bottom">
+            <div>
+                <h3 class="fw-bold text-dark mb-1 d-flex align-items-center">
+                    <span class="fs-2 me-2">🇮🇳</span> Diabetes Prevalence in India
+                </h3>
+                <p class="text-muted small mb-0">Comprehensive clinical figures based on ICMR-INDIAB & Health Ministry Reports</p>
+            </div>
+            <span class="badge bg-primary fs-6 rounded-pill px-3 py-2">Known as "Diabetes Capital of Asia"</span>
+        </div>
+
+        <div class="row g-4 align-items-center">
+            <div class="col-lg-6">
+                <div class="mb-4">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                        <span class="fw-semibold text-dark">Overall Adult Prevalence Rate</span>
+                        <span class="fw-bold text-danger fs-5">11.4%</span>
+                    </div>
+                    <div class="progress" style="height: 12px;">
+                        <div class="progress-bar bg-danger" role="progressbar" style="width: 11.4%;" aria-valuenow="11.4" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <div class="small text-muted mt-1">Approximately 1 in every 9 adults in India is living with diabetes.</div>
+                </div>
+
+                <div class="mb-4">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                        <span class="fw-semibold text-dark">Urban Area Prevalence</span>
+                        <span class="fw-bold text-primary fs-5">16.4%</span>
+                    </div>
+                    <div class="progress" style="height: 12px;">
+                        <div class="progress-bar bg-primary" role="progressbar" style="width: 16.4%;" aria-valuenow="16.4" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <div class="small text-muted mt-1">Higher in urban metro centers due to lifestyle & dietary shifts.</div>
+                </div>
+
+                <div class="mb-4">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                        <span class="fw-semibold text-dark">Rural Area Prevalence</span>
+                        <span class="fw-bold text-success fs-5">8.9%</span>
+                    </div>
+                    <div class="progress" style="height: 12px;">
+                        <div class="progress-bar bg-success" role="progressbar" style="width: 8.9%;" aria-valuenow="8.9" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <div class="small text-muted mt-1">Steadily increasing as processed foods & sedentary habits expand to rural zones.</div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="bg-light p-4 rounded-4">
+                    <h5 class="fw-bold text-dark mb-3"><i class="bi bi-geo-alt-fill text-danger me-2"></i>High Prevalence States in India</h5>
+                    <div class="list-group list-group-flush bg-transparent small">
+                        <div class="list-group-item bg-transparent d-flex justify-content-between align-items-center py-2">
+                            <span><strong>Goa</strong></span>
+                            <span class="badge bg-danger rounded-pill">26.4% Prevalence</span>
+                        </div>
+                        <div class="list-group-item bg-transparent d-flex justify-content-between align-items-center py-2">
+                            <span><strong>Puducherry</strong></span>
+                            <span class="badge bg-danger rounded-pill">26.3% Prevalence</span>
+                        </div>
+                        <div class="list-group-item bg-transparent d-flex justify-content-between align-items-center py-2">
+                            <span><strong>Kerala</strong></span>
+                            <span class="badge bg-danger rounded-pill">25.5% Prevalence</span>
+                        </div>
+                        <div class="list-group-item bg-transparent d-flex justify-content-between align-items-center py-2">
+                            <span><strong>Chandigarh</strong></span>
+                            <span class="badge bg-warning text-dark rounded-pill">20.4% Prevalence</span>
+                        </div>
+                        <div class="list-group-item bg-transparent d-flex justify-content-between align-items-center py-2">
+                            <span><strong>Delhi (NCR)</strong></span>
+                            <span class="badge bg-warning text-dark rounded-pill">17.8% Prevalence</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section 2: Global Diabetes Insights -->
+    <div class="card card-custom border-0 shadow-sm p-4 p-md-5 mb-5 bg-white">
+        <div class="d-flex flex-wrap align-items-center justify-content-between mb-4 pb-3 border-bottom">
+            <div>
+                <h3 class="fw-bold text-dark mb-1 d-flex align-items-center">
+                    <span class="fs-2 me-2">🌍</span> World & Global Diabetes Data
+                </h3>
+                <p class="text-muted small mb-0">Official statistics from IDF (International Diabetes Federation) Atlas 10th Edition</p>
+            </div>
+            <span class="badge bg-info text-dark fs-6 rounded-pill px-3 py-2">Global Health Challenge</span>
+        </div>
+
+        <div class="row g-4">
+            <!-- Global Ratio Meter -->
+            <div class="col-md-6 col-lg-4">
+                <div class="p-4 bg-light rounded-4 h-100 text-center">
+                    <div class="display-4 text-primary fw-extrabold mb-2">1 in 10</div>
+                    <h6 class="fw-bold text-dark">Global Adult Ratio</h6>
+                    <p class="small text-muted">1 in every 10 adults (aged 20–79 years) worldwide has diabetes.</p>
+                    <hr>
+                    <div class="small text-start">
+                        <i class="bi bi-check-circle-fill text-success me-1"></i><strong>Total Affected:</strong> 537 Million Adults<br>
+                        <i class="bi bi-arrow-up-circle-fill text-danger me-1"></i><strong>2030 Estimate:</strong> 643 Million Adults
+                    </div>
+                </div>
+            </div>
+
+            <!-- Annual Mortality & Impact -->
+            <div class="col-md-6 col-lg-4">
+                <div class="p-4 bg-light rounded-4 h-100 text-center">
+                    <div class="display-4 text-danger fw-extrabold mb-2">6.7M</div>
+                    <h6 class="fw-bold text-dark">Annual Global Deaths</h6>
+                    <p class="small text-muted">Diabetes causes 1 death every 5 seconds globally.</p>
+                    <hr>
+                    <div class="small text-start">
+                        <i class="bi bi-cash-coin text-warning me-1"></i><strong>Global Health Expenditure:</strong> \$966 Billion USD<br>
+                        <i class="bi bi-hospital text-info me-1"></i><strong>79% of Cases:</strong> Live in Low/Middle Income Countries
+                    </div>
+                </div>
+            </div>
+
+            <!-- Regional Distribution breakdown -->
+            <div class="col-md-12 col-lg-4">
+                <div class="p-4 bg-light rounded-4 h-100">
+                    <h6 class="fw-bold text-dark mb-3"><i class="bi bi-bar-chart-fill text-primary me-2"></i>Regional Patient Burden</h6>
+                    <ul class="list-unstyled small space-y-2 mb-0">
+                        <li class="d-flex justify-content-between py-1 border-bottom">
+                            <span><strong>Western Pacific</strong></span>
+                            <span class="fw-bold text-dark">206 Million</span>
+                        </li>
+                        <li class="d-flex justify-content-between py-1 border-bottom">
+                            <span><strong>South-East Asia (incl. India)</strong></span>
+                            <span class="fw-bold text-danger">90 Million</span>
+                        </li>
+                        <li class="d-flex justify-content-between py-1 border-bottom">
+                            <span><strong>Middle East & N. Africa</strong></span>
+                            <span class="fw-bold text-dark">73 Million</span>
+                        </li>
+                        <li class="d-flex justify-content-between py-1 border-bottom">
+                            <span><strong>North America & Caribbean</strong></span>
+                            <span class="fw-bold text-dark">51 Million</span>
+                        </li>
+                        <li class="d-flex justify-content-between py-1">
+                            <span><strong>Europe</strong></span>
+                            <span class="fw-bold text-dark">61 Million</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Comparative Overview Table -->
+    <div class="card card-custom border-0 shadow-sm p-4 p-md-5 mb-5 bg-white">
+        <h4 class="fw-bold text-dark mb-3"><i class="bi bi-body-text text-primary me-2"></i>India vs. World Direct Comparison</h4>
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead class="table-primary">
+                    <tr>
+                        <th>Metric Parameter</th>
+                        <th>🇮🇳 India Statistics</th>
+                        <th>🌍 Global / World Statistics</th>
+                        <th>Key Risk Takeaway</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="fw-bold">Total Patient Count</td>
+                        <td><span class="badge bg-danger fs-6">101 Million</span></td>
+                        <td><span class="badge bg-primary fs-6">537 Million</span></td>
+                        <td>India accounts for ~19% of global diabetes cases.</td>
+                    </tr>
+                    <tr>
+                        <td class="fw-bold">Adult Risk Ratio</td>
+                        <td>1 in 9 Adults (11.4%)</td>
+                        <td>1 in 10 Adults (10.5%)</td>
+                        <td>Higher prevalence density in Indian urban populations.</td>
+                    </tr>
+                    <tr>
+                        <td class="fw-bold">Pre-Diabetes Count</td>
+                        <td>136 Million Individuals</td>
+                        <td>541 Million Individuals</td>
+                        <td>High transition potential without early lifestyle intervention.</td>
+                    </tr>
+                    <tr>
+                        <td class="fw-bold">Undiagnosed Percentage</td>
+                        <td>~50% Undiagnosed</td>
+                        <td>~44.7% Undiagnosed</td>
+                        <td>Millions are unaware until secondary complications develop.</td>
+                    </tr>
+                    <tr>
+                        <td class="fw-bold">Primary Risk Drivers</td>
+                        <td>Genetics, Refined Carbohydrates, Physical Inactivity</td>
+                        <td>Obesity, Ageing, Urbanization, Ultra-processed Diets</td>
+                        <td>Early AI machine learning screening can flag hidden risks.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Interactive Call to Action Banner -->
+    <div class="card bg-gradient-primary text-white p-5 rounded-4 shadow-lg border-0 text-center">
+        <h2 class="fw-extrabold mb-3">Know Your Risk Before Symptoms Appear</h2>
+        <p class="lead opacity-90 mx-auto mb-4" style="max-width: 750px;">
+            With nearly 50% of diabetes cases remaining undiagnosed, early screening is your best defense. Use our Machine Learning model to evaluate your 8 clinical metrics in under 2 minutes.
+        </p>
+        <div>
+            <a href="{{ url_for('home') }}#assessment-form" class="btn btn-warning btn-lg fw-bold rounded-pill px-5 shadow">
+                <i class="bi bi-cpu-fill me-2"></i>Run Free Assessment Now
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
