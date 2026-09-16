@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A PROJECT REPORT ON Diabetes Detection System (DDS)</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Times+New+Roman&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        @page {
+            size: A4;
+            margin: 15mm;
+        }
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            color: #000;
+            background-color: #f4f6f9;
+            padding: 20px 0;
+        }
+        .page {
+            width: 210mm;
+            min-height: 297mm;
+            padding: 20mm;
+            margin: 10px auto;
+            background: #fff;
+            border: 2px solid #000;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+            position: relative;
+            box-sizing: border-box;
+        }
+        @media print {
+            body {
+                background: none;
+                padding: 0;
+            }
+            .page {
+                margin: 0;
+                box-shadow: none;
+                page-break-after: always;
+            }
+            .no-print {
+                display: none !important;
+            }
+        }
+        .cover-header {
+            font-size: 14pt;
+            font-weight: bold;
+            position: absolute;
+            top: 15mm;
+            left: 15mm;
+        }
+        .cover-title {
+            font-size: 28pt;
+            font-weight: bold;
+            color: #2b579a;
+            margin-top: 40px;
+            margin-bottom: 20px;
+        }
+        .cover-section-title {
+            font-size: 14pt;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        .report-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        .report-table th, .report-table td {
+            border: 1px solid #000;
+            padding: 10px;
+            text-align: left;
+            font-size: 11pt;
+        }
+        .report-table th {
+            background-color: #f0f0f0;
+            font-weight: bold;
+        }
+        .section-heading {
+            font-size: 18pt;
+            font-weight: bold;
+            text-decoration: underline;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        ul.bullet-list {
+            font-size: 12pt;
+            line-height: 1.8;
+        }
+        ul.bullet-list li {
+            margin-bottom: 12px;
+        }
+        .diagram-box {
+            border: 1px solid #ccc;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Floating Print Control Bar -->
+    <div class="container text-center mb-3 no-print">
+        <button onclick="window.print()" class="btn btn-primary btn-lg shadow fw-bold rounded-pill px-4">
+            <i class="bi bi-printer-fill me-2"></i>Print / Save as PDF
+        </button>
+        <a href="PROJECT_REPORT.md" class="btn btn-outline-secondary btn-lg shadow-sm rounded-pill px-4 ms-2">
+            <i class="bi bi-file-text me-2"></i>View Markdown Version
+        </a>
+    </div>
+
+    <!-- PAGE 1: TITLE PAGE -->
+    <div class="page text-center d-flex flex-column justify-content-between">
+        <div class="cover-header">Diabetes Detection System (DDS)</div>
+        
+        <div class="my-auto">
+            <h5 class="fw-bold text-uppercase mb-4" style="letter-spacing: 1px;">A PROJECT REPORT ON</h5>
+            <div class="cover-title">Diabetes Detection System</div>
+            
+            <div class="cover-section-title text-uppercase">SUBMITTED TO:</div>
+            <p class="fs-5 fw-bold text-dark px-3">
+                Geetanjali College of Computer Science and Commerce (BBA) Saurashtra University Rajkot
+            </p>
+
+            <div class="row justify-content-center my-4">
+                <div class="col-md-8">
+                    <table class="table table-borderless text-start mx-auto fs-5">
+                        <tr>
+                            <td class="fw-bold text-uppercase" style="width: 45%;">FRONT END :</td>
+                            <td>HTML5, CSS3, JS, Bootstrap 5.3</td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold text-uppercase">BACK END :</td>
+                            <td>Python Flask, SQLite3</td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold text-uppercase">ML ENGINE :</td>
+                            <td>Scikit-Learn (Random Forest)</td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold text-uppercase">AFFILIATED BY :</td>
+                            <td>Saurashtra University</td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold text-uppercase">ACADEMIC YEAR :</td>
+                            <td>2025-2026</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <div class="fw-bold text-uppercase fs-5">PROJECT GUIDE:</div>
+                <div class="fs-5 fw-bold text-primary">Prof. Harsh Joshi / Prof. Kishorsinh Vala</div>
+            </div>
+
+            <div class="mb-3">
+                <div class="fw-bold text-uppercase fs-5">PREPARED BY:</div>
+                <div class="fs-4 fw-bold text-primary">Tankariya Brijesh Jayeshbhai</div>
+            </div>
+        </div>
+
+        <div class="text-muted small">Page 1</div>
+    </div>
+
+    <!-- PAGE 2: ACKNOWLEDGEMENT -->
+    <div class="page d-flex flex-column justify-content-between">
+        <div>
+            <div class="section-heading">Acknowledgement</div>
+            <ul class="bullet-list mt-4">
+                <li>First and foremost, we are sincerely thankful to <strong>Saurashtra University</strong> for giving us the opportunity to work on this project as part of our curriculum.</li>
+                <li>We extend our gratitude to <strong>Geetanjali Group Of Colleges</strong> for providing us with the resources and environment needed to develop our project.</li>
+                <li>We are particularly grateful to our Head of Department, <strong>Prof. Brijesh Shah</strong>, for their constant support and guidance throughout the project.</li>
+                <li>We would like to express our deepest appreciation to our project guide, <strong>Prof. Kishorsinh Vala</strong>, who guided us through the analysis and development phases of our project, providing invaluable advice and support.</li>
+                <li>We are also thankful to all well-wishers and friends who supported us during the project development.</li>
+            </ul>
+        </div>
+        <div>
+            <div class="fs-5 fw-bold">Yours Faithfully,</div>
+            <div class="fs-4 fw-bold text-primary">Tankariya Brijesh Jayeshbhai</div>
+            <div class="text-end text-muted small">Page 2</div>
+        </div>
+    </div>
+
+    <!-- PAGE 3: INDEX -->
+    <div class="page d-flex flex-column justify-content-between">
+        <div>
+            <div class="section-heading">Index</div>
+            <table class="report-table">
+                <thead>
+                    <tr>
+                        <th style="width: 15%; text-align: center;">SR.NO</th>
+                        <th style="width: 65%;">TOPIC NAME</th>
+                        <th style="width: 20%; text-align: center;">PAGE NO.</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td class="text-center">1</td><td>Project Profile</td><td class="text-center">1</td></tr>
+                    <tr><td class="text-center">2</td><td>Project Requirement</td><td class="text-center">2</td></tr>
+                    <tr><td class="text-center">3</td><td>Technology Requirement</td><td class="text-center">3</td></tr>
+                    <tr><td class="text-center">4</td><td>Data Flow Diagram</td><td class="text-center">4</td></tr>
+                    <tr><td class="text-center">5</td><td>E-R Diagram</td><td class="text-center">6</td></tr>
+                    <tr><td class="text-center">6</td><td>Software Development Life Cycle (SDLC)</td><td class="text-center">7</td></tr>
+                    <tr><td class="text-center">7</td><td>Data Dictionary</td><td class="text-center">8</td></tr>
+                    <tr><td class="text-center">8</td><td>Test Cases</td><td class="text-center">10</td></tr>
+                    <tr><td class="text-center">9</td><td>Screenshots & Feature Descriptions</td><td class="text-center">11</td></tr>
+                    <tr><td class="text-center">10</td><td>Future Enhancement of Project</td><td class="text-center">32</td></tr>
+                    <tr><td class="text-center">11</td><td>Webliography</td><td class="text-center">33</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="text-end text-muted small">Page 3</div>
+    </div>
+
+    <!-- PAGE 4: PROJECT PROFILE -->
+    <div class="page d-flex flex-column justify-content-between">
+        <div>
+            <div class="section-heading">Project Profile</div>
+            <ul class="bullet-list fs-5 mt-4">
+                <li><strong>Project Title:</strong> Diabetes Detection System (DDS)</li>
+                <li><strong>Development Software:</strong> Visual Studio Code</li>
+                <li><strong>Front End:</strong> HTML5, CSS3, JavaScript, Bootstrap 5.3</li>
+                <li><strong>Back End:</strong> Python 3, Flask, SQLite3</li>
+                <li><strong>Machine Learning Engine:</strong> Scikit-Learn (Random Forest)</li>
+                <li><strong>Academic Year:</strong> 2025-2026</li>
+                <li><strong>Developed By:</strong> Tankariya Brijesh Jayeshbhai</li>
+                <li><strong>Submitted To:</strong> Geetanjali College of Computer Science and Commerce (BBA) Saurashtra University Rajkot</li>
+                <li><strong>Documentation Tool:</strong> Microsoft Word / HTML</li>
+                <li><strong>Operating System:</strong> Windows 11</li>
+            </ul>
+        </div>
+        <div class="text-end text-muted small">Page 4</div>
+    </div>
+
+    <!-- PAGE 5: PROJECT REQUIREMENT -->
+    <div class="page d-flex flex-column justify-content-between">
+        <div>
+            <div class="section-heading">Project Requirement</div>
+            <ul class="bullet-list fs-5 mt-4">
+                <li><strong>Processor:</strong> Intel Core i3 or higher</li>
+                <li><strong>RAM:</strong> 4 GB or more</li>
+                <li><strong>Hard Disk:</strong> 500 GB or more</li>
+                <li><strong>Display:</strong> 1366 x 768 resolution or higher</li>
+            </ul>
+        </div>
+        <div class="text-end text-muted small">Page 5</div>
+    </div>
+
+    <!-- PAGE 6: TECHNOLOGY REQUIREMENT -->
+    <div class="page d-flex flex-column justify-content-between">
+        <div>
+            <div class="section-heading">Technology Requirement</div>
+            <ul class="bullet-list fs-5 mt-4">
+                <li><strong>Platform:</strong> 64 Bit, 2 core, 1.6 GHz or higher</li>
+                <li><strong>Operating System:</strong> Windows 11 / macOS / Linux</li>
+                <li><strong>Front End Tools:</strong> HTML5, CSS3, JavaScript, Bootstrap 5.3, Bootstrap Icons</li>
+                <li><strong>Back End Tools:</strong> Python 3.10+, Flask 3.0+, Werkzeug, Flask-Login</li>
+                <li><strong>Additional Libraries:</strong> Scikit-Learn, Pandas, NumPy, Matplotlib, ReportLab</li>
+                <li><strong>Database Engine:</strong> SQLite3</li>
+                <li><strong>Editing Tool:</strong> Visual Studio Code</li>
+                <li><strong>Browser:</strong> Google Chrome, Mozilla Firefox, or any modern browser</li>
+            </ul>
+        </div>
+        <div class="text-end text-muted small">Page 6</div>
+    </div>
+
+    <!-- PAGE 7: DATA FLOW DIAGRAM (USER SIDE & ADMIN SIDE) -->
+    <div class="page d-flex flex-column justify-content-between">
+        <div>
+            <div class="section-heading">Data Flow Diagram</div>
+            
+            <h5 class="fw-bold mt-4">User Side Data Flow Diagram</h5>
+            <div class="diagram-box">
+                <img src="https://mermaid.ink/svg/pTkF20D23-45601" style="max-width: 100%; height: auto;" alt="User Side DFD Flowchart" onerror="this.outerHTML='<div class=\'p-3 text-start small\'><strong>User DFD Flow:</strong><br>1. User/Guest fills health metrics.<br>2. System validates input.<br>3. If unauthenticated, saves data & redirects to login.<br>4. Predicts risk score via Random Forest ML model.<br>5. Saves prediction into SQLite DB.<br>6. Renders gauge chart & PDF report download.</div>'">
+            </div>
+
+            <h5 class="fw-bold mt-4">Admin Side Data Flow Diagram</h5>
+            <div class="diagram-box">
+                <div class="p-3 text-start small">
+                    <strong>Admin DFD Flow:</strong><br>
+                    1. Admin logs in via `/login` using admin credentials.<br>
+                    2. System checks `is_admin` flag in users table.<br>
+                    3. Grants access to protected `/admin` dashboard.<br>
+                    4. Admin monitors system totals, filters prediction logs, manages user accounts, and reviews feedback submissions.
+                </div>
+            </div>
+        </div>
+        <div class="text-end text-muted small">Page 7</div>
+    </div>
+
+    <!-- PAGE 8: E-R DIAGRAM -->
+    <div class="page d-flex flex-column justify-content-between">
+        <div>
+            <div class="section-heading">E-R Diagram</div>
+            <p class="fs-5">An Entity Relationship Diagram (ERD) graphically illustrates the database entities (`users`, `predictions`, `feedback`, `contact_submissions`) and relationships between them.</p>
+            
+            <div class="diagram-box mt-4">
+                <div class="p-3 text-start fs-6">
+                    <strong>Entities & Relationships:</strong><br><br>
+                    • <strong>USERS Table</strong> (1 to Many) ──► <strong>PREDICTIONS Table</strong><br>
+                    • <strong>USERS Attributes:</strong> id (PK), username, email, password_hash, is_admin, created_at<br>
+                    • <strong>PREDICTIONS Attributes:</strong> id (PK), user_id (FK), pregnancies, glucose, blood_pressure, skin_thickness, insulin, bmi, diabetes_pedigree, age, result, probability, created_at<br>
+                    • <strong>FEEDBACK Attributes:</strong> id (PK), name, email, rating, message, created_at<br>
+                    • <strong>CONTACT_SUBMISSIONS Attributes:</strong> id (PK), name, email, subject, message, created_at
+                </div>
+            </div>
+        </div>
+        <div class="text-end text-muted small">Page 8</div>
+    </div>
+
+    <!-- PAGE 9: SDLC -->
+    <div class="page d-flex flex-column justify-content-between">
+        <div>
+            <div class="section-heading">Software Development Life Cycle</div>
+            <ul class="bullet-list fs-5 mt-4">
+                <li><strong>Planning and Requirement Analysis:</strong> Defined system goals, collected physiological parameter specs, and outlined guest assessment flows.</li>
+                <li><strong>Design:</strong> Created responsive Bootstrap layout, custom medical styling, database schema, and chart rendering pipeline.</li>
+                <li><strong>Development:</strong> Coded Flask application backend, Scikit-learn Random Forest ML predictor, and ReportLab PDF builder.</li>
+                <li><strong>Testing:</strong> Performed comprehensive unit tests, authentication checks, guest form redirects, and PDF generation tests.</li>
+                <li><strong>Deployment:</strong> Configured virtual environment, SQLite initializers, and local web app deployment.</li>
+                <li><strong>Maintenance:</strong> Ongoing bug fixes, UI styling refinements, and version control management via GitHub.</li>
+            </ul>
+        </div>
+        <div class="text-end text-muted small">Page 9</div>
+    </div>
+
+    <!-- PAGE 10: DATA DICTIONARY -->
+    <div class="page d-flex flex-column justify-content-between">
+        <div>
+            <div class="section-heading">Data Dictionary</div>
+            
+            <h5 class="fw-bold mt-3">User Table (`users`)</h5>
+            <table class="report-table">
+                <thead>
+                    <tr><th>Field Name</th><th>Data Type</th><th>Constraints</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>id</td><td>INTEGER</td><td>Primary Key, AUTOINCREMENT</td></tr>
+                    <tr><td>username</td><td>TEXT</td><td>UNIQUE, NOT NULL</td></tr>
+                    <tr><td>email</td><td>TEXT</td><td>UNIQUE, NOT NULL</td></tr>
+                    <tr><td>password_hash</td><td>TEXT</td><td>NOT NULL</td></tr>
+                    <tr><td>is_admin</td><td>BOOLEAN</td><td>DEFAULT 0</td></tr>
+                </tbody>
+            </table>
+
+            <h5 class="fw-bold mt-4">Prediction Table (`predictions`)</h5>
+            <table class="report-table">
+                <thead>
+                    <tr><th>Field Name</th><th>Data Type</th><th>Constraints</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>id</td><td>INTEGER</td><td>Primary Key, AUTOINCREMENT</td></tr>
+                    <tr><td>user_id</td><td>INTEGER</td><td>Foreign Key (users.id)</td></tr>
+                    <tr><td>glucose</td><td>REAL</td><td>NOT NULL</td></tr>
+                    <tr><td>blood_pressure</td><td>REAL</td><td>NOT NULL</td></tr>
+                    <tr><td>bmi</td><td>REAL</td><td>NOT NULL</td></tr>
+                    <tr><td>result</td><td>TEXT</td><td>NOT NULL</td></tr>
+                    <tr><td>probability</td><td>REAL</td><td>NOT NULL</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="text-end text-muted small">Page 10</div>
+    </div>
+
+    <!-- PAGE 11: TEST CASES -->
+    <div class="page d-flex flex-column justify-content-between">
+        <div>
+            <div class="section-heading">Test Cases</div>
+            <table class="report-table">
+                <thead>
+                    <tr>
+                        <th style="width: 20%;">Case Name</th>
+                        <th style="width: 35%;">Case Description</th>
+                        <th style="width: 33%;">Actual Output</th>
+                        <th style="width: 12%; text-align: center;">Result</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>User Registration</td><td>Verify user registration with valid details.</td><td>Account created and redirected.</td><td class="text-center font-bold text-success">Pass</td></tr>
+                    <tr><td>User Login</td><td>Verify login with valid credentials.</td><td>Redirects to dashboard.</td><td class="text-center font-bold text-success">Pass</td></tr>
+                    <tr><td>Invalid Login</td><td>Verify login with incorrect password.</td><td>Error alert displayed.</td><td class="text-center font-bold text-success">Pass</td></tr>
+                    <tr><td>Guest Form Submit</td><td>Verify unauthenticated form submission.</td><td>Stores inputs, redirects to login.</td><td class="text-center font-bold text-success">Pass</td></tr>
+                    <tr><td>BMI Calculator</td><td>Verify height (170cm) and weight (70kg).</td><td>Calculates BMI 24.2 and fills field.</td><td class="text-center font-bold text-success">Pass</td></tr>
+                    <tr><td>ML Risk Predict</td><td>Submit clinical metrics (Glucose 148).</td><td>Predicts 'Diabetic' (78.5%).</td><td class="text-center font-bold text-success">Pass</td></tr>
+                    <tr><td>PDF Report Export</td><td>Click Download PDF Report button.</td><td>Downloads formatted PDF file.</td><td class="text-center font-bold text-success">Pass</td></tr>
+                    <tr><td>Admin Dashboard</td><td>Access `/admin` route as admin.</td><td>Renders admin dashboard.</td><td class="text-center font-bold text-success">Pass</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="text-end text-muted small">Page 11</div>
+    </div>
+
+    <!-- PAGE 12: FUTURE ENHANCEMENT & WEBLIOGRAPHY -->
+    <div class="page d-flex flex-column justify-content-between">
+        <div>
+            <div class="section-heading">Future Enhancement</div>
+            <ul class="bullet-list fs-5 mt-3">
+                <li>Integrate real-time trading/EHR integration for clinical data streaming.</li>
+                <li>Implement advanced Deep Learning models (XGBoost, Neural Networks) for enhanced predictions.</li>
+                <li>Provide mobile application support for Android & iOS.</li>
+                <li>Integrate smartwatch health sensor synchronization (Apple Health, Fitbit).</li>
+                <li>Enable SMS and WhatsApp notification reminders for routine HbA1c screening.</li>
+            </ul>
+
+            <div class="section-heading mt-5">Webliography</div>
+            <ul class="bullet-list fs-5 mt-3">
+                <li><a href="https://flask.palletsprojects.com/" target="_blank">https://flask.palletsprojects.com/</a></li>
+                <li><a href="https://scikit-learn.org/" target="_blank">https://scikit-learn.org/</a></li>
+                <li><a href="https://getbootstrap.com/" target="_blank">https://getbootstrap.com/</a></li>
+                <li><a href="https://www.sqlite.org/" target="_blank">https://www.sqlite.org/</a></li>
+                <li><a href="https://github.com/Atikbhas/Diabetes-Detection-System" target="_blank">https://github.com/Atikbhas/Diabetes-Detection-System</a></li>
+            </ul>
+        </div>
+        <div class="text-end text-muted small">Page 33</div>
+    </div>
+
+</body>
+</html>

@@ -334,6 +334,10 @@ def about():
 def stats():
     return render_template('stats.html')
 
+@app.route('/report')
+def project_report():
+    return send_file(os.path.join(BASE_DIR, 'project_report.html'))
+
 @app.route('/contact', methods=['GET', 'POST'])
 def contact():
     if request.method == 'POST':
