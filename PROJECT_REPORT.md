@@ -15,7 +15,7 @@
 | **AFFILIATED BY** | Saurashtra University |
 | **ACADEMIC YEAR** | 2025-2026 |
 | **PROJECT GUIDE** | Prof. Harsh Joshi / Prof. Kishorsinh Vala |
-| **PREPARED BY** | Tankariya Brijesh Jayeshbhai |
+| **PREPARED BY** | Atik Bhas & Jay Sitapara |
 
 ---
 
@@ -30,7 +30,7 @@
 - We are also thankful to all well-wishers and friends who supported us during the project development.
 
 **Yours Faithfully,**  
-**Tankariya Brijesh Jayeshbhai**
+**Atik Bhas & Jay Sitapara**
 
 ---
 
@@ -64,7 +64,7 @@
 - **Back End**: Python 3, Flask, SQLite3
 - **Machine Learning Engine**: Scikit-Learn (Random Forest Classifier, StandardScaler)
 - **Academic Year**: 2025-2026 / 2026-2027
-- **Developed By**: Tankariya Brijesh Jayeshbhai
+- **Developed By**: Atik Bhas & Jay Sitapara
 - **Submitted To**: Geetanjali College of Computer Science and Commerce (BBA) Saurashtra University Rajkot
 - **Documentation Tool**: Microsoft Word / Markdown / HTML
 - **Operating System**: Windows 11 / macOS / Linux
