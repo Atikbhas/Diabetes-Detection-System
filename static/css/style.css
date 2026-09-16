@@ -1,0 +1,199 @@
+/* Modern Medical Aesthetic Theme - Diabetes Detection System */
+:root {
+  --primary-color: #0d6efd;
+  --primary-hover: #0b5ed7;
+  --primary-dark: #0a58ca;
+  --emerald-green: #198754;
+  --soft-emerald: #d1e7dd;
+  --risk-red: #dc3545;
+  --warning-amber: #ffc107;
+  --bg-gradient: linear-gradient(135deg, #f4f7f6 0%, #e9ecef 100%);
+  --card-bg: #ffffff;
+  --text-primary: #212529;
+  --text-muted: #6c757d;
+  --border-radius: 12px;
+  --box-shadow: 0 8px 24px rgba(13, 110, 253, 0.08);
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: var(--bg-gradient);
+  color: var(--text-primary);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main.content-wrapper {
+  flex: 1 0 auto;
+  padding-bottom: 3rem;
+}
+
+/* Glassmorphism Navbar */
+.navbar-custom {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid rgba(13, 110, 253, 0.1);
+}
+
+.navbar-brand-logo {
+  font-weight: 800;
+  font-size: 1.35rem;
+  color: var(--primary-dark);
+  letter-spacing: -0.5px;
+}
+
+.nav-link {
+  font-weight: 500;
+  color: #495057;
+  margin: 0 4px;
+  transition: all 0.2s ease;
+}
+
+.nav-link:hover, .nav-link.active {
+  color: var(--primary-color);
+}
+
+/* Footer Styling */
+.footer-custom {
+  background: #1e293b;
+  color: #cbd5e1;
+  padding: 3rem 0 1.5rem;
+  margin-top: auto;
+}
+
+.footer-custom a {
+  color: #94a3b8;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer-custom a:hover {
+  color: #38bdf8;
+}
+
+/* Card & Glass Elements */
+.card-custom {
+  background: var(--card-bg);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-custom:hover {
+  box-shadow: 0 12px 30px rgba(13, 110, 253, 0.12);
+}
+
+/* Hero Section */
+.hero-banner {
+  background: linear-gradient(135deg, #0d6efd 0%, #04389e 100%);
+  color: white;
+  padding: 5rem 0 4rem;
+  border-radius: 0 0 24px 24px;
+  box-shadow: 0 10px 30px rgba(13, 110, 253, 0.2);
+}
+
+.hero-badge {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(5px);
+  padding: 0.5rem 1.25rem;
+  border-radius: 50px;
+  font-weight: 600;
+  display: inline-block;
+}
+
+/* Guidance Sticky Sidebar */
+.guidance-sidebar {
+  position: sticky;
+  top: 90px;
+  max-height: calc(100vh - 110px);
+  overflow-y: auto;
+  border-left: 4px solid var(--primary-color);
+}
+
+.guidance-card {
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  background: #f8fafc;
+}
+
+/* BMI Calculator Box */
+.bmi-calculator-box {
+  background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+  border: 1px solid #7dd3fc;
+  border-radius: 12px;
+  padding: 1.25rem;
+}
+
+/* Badges & Indicators */
+.badge-diabetic {
+  background-color: #fee2e2;
+  color: #991b1b;
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+}
+
+.badge-healthy {
+  background-color: #d1fae5;
+  color: #065f46;
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+}
+
+.badge-admin {
+  background-color: #fef3c7;
+  color: #92400e;
+  font-weight: 600;
+  font-size: 0.8rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 4px;
+}
+
+/* Form Controls */
+.form-control:focus, .form-select:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
+}
+
+/* Star Rating Radio Group */
+.star-rating {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  gap: 6px;
+}
+.star-rating input {
+  display: none;
+}
+.star-rating label {
+  font-size: 1.8rem;
+  color: #cbd5e1;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.star-rating input:checked ~ label,
+.star-rating label:hover,
+.star-rating label:hover ~ label {
+  color: #f59e0b;
+}
+
+/* Custom Table Design */
+.table-custom {
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.table-custom th {
+  background: #f1f5f9;
+  color: #334155;
+  font-weight: 600;
+  border-bottom: 2px solid #e2e8f0;
+}

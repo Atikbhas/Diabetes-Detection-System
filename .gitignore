@@ -1,0 +1,25 @@
+# Python bytecode and cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Environments
+.venv/
+venv/
+ENV/
+env/
+
+# Database (optional if you want fresh db on deploy)
+# database.db
+
+# Model binaries (optional - can be checked in or ignored if generated on boot)
+# model/diabetes_model.pkl
+# model/scaler.pkl
+
+# IDE and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

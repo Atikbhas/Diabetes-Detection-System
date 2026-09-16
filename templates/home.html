@@ -1,0 +1,173 @@
+{% extends 'base.html' %}
+
+{% block title %}Home — Diabetes Detection System{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-banner mb-5 text-center text-lg-start">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-7">
+                <span class="hero-badge text-white mb-3">
+                    <i class="bi bi-cpu-fill text-warning me-2"></i>AI-Powered Machine Learning Screening
+                </span>
+                <h1 class="display-4 fw-extrabold mb-3">Early Diabetes Risk Detection System</h1>
+                <p class="lead mb-4 text-slate-100 opacity-90">
+                    Assess your likelihood of diabetes in seconds using verified machine learning models trained on clinical physiological data. Get instant risk probability scores, parameter comparisons, customized 7-day meal plans, and doctor advisories.
+                </p>
+                <div class="d-flex flex-wrap gap-3 justify-content-center justify-content-lg-start">
+                    {% if current_user.is_authenticated %}
+                    <a href="{{ url_for('predict') }}" class="btn btn-warning btn-lg fw-bold rounded-pill px-4 shadow">
+                        <i class="bi bi-cpu me-2"></i>Start Free Risk Assessment
+                    </a>
+                    {% else %}
+                    <a href="{{ url_for('signup') }}" class="btn btn-warning btn-lg fw-bold rounded-pill px-4 shadow">
+                        <i class="bi bi-person-plus-fill me-2"></i>Get Started — Sign Up
+                    </a>
+                    <a href="{{ url_for('login') }}" class="btn btn-outline-light btn-lg fw-semibold rounded-pill px-4">
+                        <i class="bi bi-box-arrow-in-right me-2"></i>Log In
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-lg-5 text-center">
+                <div class="card card-custom border-0 p-4 bg-white text-dark shadow-lg">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="p-3 bg-primary bg-opacity-10 text-primary rounded-circle me-3">
+                            <i class="bi bi-activity fs-2"></i>
+                        </div>
+                        <div class="text-start">
+                            <h5 class="fw-bold mb-0">Live Model Status</h5>
+                            <span class="badge bg-success">Active & Operational</span>
+                        </div>
+                    </div>
+                    <ul class="list-group list-group-flush text-start small mb-3">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span><i class="bi bi-database me-2 text-primary"></i>Dataset</span>
+                            <span class="fw-bold">Pima Indians Diabetes</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span><i class="bi bi-diagram-3 me-2 text-primary"></i>Algorithm</span>
+                            <span class="fw-bold">Random Forest Classifier</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span><i class="bi bi-sliders me-2 text-primary"></i>Features Evaluated</span>
+                            <span class="fw-bold">8 Clinical Metrics</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span><i class="bi bi-file-earmark-pdf me-2 text-primary"></i>Report Format</span>
+                            <span class="fw-bold">Downloadable PDF</span>
+                        </li>
+                    </ul>
+                    <div class="p-2 bg-light rounded text-center small text-muted">
+                        <i class="bi bi-shield-check text-primary me-1"></i>Pre-seeded Admin Access: <strong>Jay & Atik</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Key System Features Grid -->
+<div class="container my-5">
+    <div class="text-center max-w-2xl mx-auto mb-5">
+        <h2 class="fw-bold text-dark mb-2">Comprehensive Health Intelligence Features</h2>
+        <p class="text-muted">Designed to provide clear medical insights, guidance, and actionable lifestyle recommendations.</p>
+    </div>
+
+    <div class="row g-4">
+        <!-- Feature 1 -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card card-custom h-100 p-4 text-center">
+                <div class="p-3 bg-primary bg-opacity-10 text-primary rounded-circle d-inline-block mx-auto mb-3" style="width: fit-content;">
+                    <i class="bi bi-cpu fs-2"></i>
+                </div>
+                <h5 class="fw-bold">ML Risk Prediction</h5>
+                <p class="text-muted small">
+                    Evaluates key parameters including Glucose, Blood Pressure, BMI, Insulin, Skin Thickness, and Pedigree score for precise risk stratification.
+                </p>
+            </div>
+        </div>
+
+        <!-- Feature 2 -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card card-custom h-100 p-4 text-center">
+                <div class="p-3 bg-success bg-opacity-10 text-success rounded-circle d-inline-block mx-auto mb-3" style="width: fit-content;">
+                    <i class="bi bi-calculator fs-2"></i>
+                </div>
+                <h5 class="fw-bold">Pre-Prediction Guidance & BMI Widget</h5>
+                <p class="text-muted small">
+                    Unsure of your metrics? Our inline guidance explains what each test means, normal reference ranges, and includes a built-in instant BMI calculator.
+                </p>
+            </div>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card card-custom h-100 p-4 text-center">
+                <div class="p-3 bg-warning bg-opacity-10 text-warning rounded-circle d-inline-block mx-auto mb-3" style="width: fit-content;">
+                    <i class="bi bi-bar-chart-line fs-2"></i>
+                </div>
+                <h5 class="fw-bold">Matplotlib Visualizations</h5>
+                <p class="text-muted small">
+                    Generates dynamic server-side risk gauges and baseline parameter comparison bar charts for easy visual assessment.
+                </p>
+            </div>
+        </div>
+
+        <!-- Feature 4 -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card card-custom h-100 p-4 text-center">
+                <div class="p-3 bg-info bg-opacity-10 text-info rounded-circle d-inline-block mx-auto mb-3" style="width: fit-content;">
+                    <i class="bi bi-egg-fried fs-2"></i>
+                </div>
+                <h5 class="fw-bold">7-Day Diabetic Meal Plan</h5>
+                <p class="text-muted small">
+                    Provides a structured weekly diet schedule (breakfast, lunch, dinner, snacks) and lifestyle tips for high-risk patients.
+                </p>
+            </div>
+        </div>
+
+        <!-- Feature 5 -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card card-custom h-100 p-4 text-center">
+                <div class="p-3 bg-danger bg-opacity-10 text-danger rounded-circle d-inline-block mx-auto mb-3" style="width: fit-content;">
+                    <i class="bi bi-hospital fs-2"></i>
+                </div>
+                <h5 class="fw-bold">Doctor Consultation Advisory</h5>
+                <p class="text-muted small">
+                    Recommends immediate vs. routine medical actions, diagnostic tests (HbA1c), and specialist referral types based on severity.
+                </p>
+            </div>
+        </div>
+
+        <!-- Feature 6 -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card card-custom h-100 p-4 text-center">
+                <div class="p-3 bg-dark bg-opacity-10 text-dark rounded-circle d-inline-block mx-auto mb-3" style="width: fit-content;">
+                    <i class="bi bi-file-earmark-pdf fs-2"></i>
+                </div>
+                <h5 class="fw-bold">Downloadable PDF Reports</h5>
+                <p class="text-muted small">
+                    Export your complete screening summary, charts, meal plan, and medical advisory into a formatted PDF report with one click.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CTA Banner -->
+<div class="container my-5">
+    <div class="card bg-primary text-white p-5 rounded-4 text-center shadow-lg border-0">
+        <h2 class="fw-bold mb-3">Take Charge of Your Health Today</h2>
+        <p class="lead mb-4 opacity-90 mx-auto" style="max-width: 700px;">
+            Screen your parameters in less than 2 minutes. Receive instant predictions, visual analytics, and personalized guidance.
+        </p>
+        <div>
+            <a href="{{ url_for('predict') }}" class="btn btn-warning btn-lg fw-bold rounded-pill px-5">
+                <i class="bi bi-arrow-right-circle me-2"></i>Run Free Assessment Now
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
