@@ -39,20 +39,27 @@ main.content-wrapper {
 
 .navbar-brand-logo {
   font-weight: 800;
-  font-size: 1.35rem;
+  font-size: 1.25rem;
   color: var(--primary-dark);
   letter-spacing: -0.5px;
+  white-space: nowrap;
 }
 
 .nav-link {
   font-weight: 500;
+  font-size: 0.92rem;
   color: #495057;
-  margin: 0 4px;
+  margin: 0 2px;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
   transition: all 0.2s ease;
 }
 
 .nav-link:hover, .nav-link.active {
   color: var(--primary-color);
+  font-weight: 600;
 }
 
 /* Footer Styling */

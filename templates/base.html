@@ -19,7 +19,7 @@
 <body>
     <!-- Top Navigation Menu Bar -->
     <nav class="navbar navbar-expand-lg sticky-top navbar-custom">
-        <div class="container">
+        <div class="container-fluid px-lg-4 px-3">
             <a class="navbar-brand navbar-brand-logo d-flex align-items-center" href="{{ url_for('home') }}">
                 <i class="bi bi-activity text-primary fs-3 me-2"></i>
                 <span>Diabetes Detection System</span>
@@ -28,7 +28,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarMain">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-3">
                     <li class="nav-item">
                         <a class="nav-link {% if request.endpoint == 'home' %}active{% endif %}" href="{{ url_for('home') }}">
                             <i class="bi bi-house-door me-1"></i>Home
@@ -36,23 +36,23 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {% if request.endpoint == 'about' %}active{% endif %}" href="{{ url_for('about') }}">
-                            <i class="bi bi-info-circle me-1"></i>About Us
+                            <i class="bi bi-info-circle me-1"></i>About
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {% if request.endpoint == 'stats' %}active{% endif %}" href="{{ url_for('stats') }}">
-                            <i class="bi bi-bar-chart-line me-1"></i>Diabetes Stats
+                            <i class="bi bi-bar-chart-line me-1"></i>Stats
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {% if request.endpoint == 'contact' %}active{% endif %}" href="{{ url_for('contact') }}">
-                            <i class="bi bi-envelope me-1"></i>Contact Us
+                            <i class="bi bi-envelope me-1"></i>Contact
                         </a>
                     </li>
                     {% if current_user.is_authenticated %}
                     <li class="nav-item">
                         <a class="nav-link {% if request.endpoint == 'predict' %}active{% endif %}" href="{{ url_for('predict') }}">
-                            <i class="bi bi-cpu me-1"></i>Predict Risk
+                            <i class="bi bi-cpu me-1"></i>Predict
                         </a>
                     </li>
                     <li class="nav-item">
@@ -67,7 +67,7 @@
                         </a>
                     </li>
                     {% if current_user.is_authenticated and current_user.is_admin %}
-                    <li class="nav-item ms-lg-2">
+                    <li class="nav-item ms-lg-1">
                         <a class="nav-link text-warning fw-bold {% if request.endpoint == 'admin_dashboard' %}active{% endif %}" href="{{ url_for('admin_dashboard') }}">
                             <i class="bi bi-shield-lock-fill me-1"></i>Admin Panel
                         </a>
