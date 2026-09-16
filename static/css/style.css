@@ -95,6 +95,11 @@ main.content-wrapper {
   box-shadow: 0 10px 30px rgba(13, 110, 253, 0.2);
 }
 
+.bg-gradient-primary {
+  background: linear-gradient(135deg, #0d6efd 0%, #04389e 100%) !important;
+  color: #ffffff !important;
+}
+
 .hero-badge {
   background: rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(5px);
