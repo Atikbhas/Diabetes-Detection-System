@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0d6efd"/>
+      <stop offset="100%" stop-color="#04389e"/>
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="1.2" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+  <!-- Background Rounded Badge -->
+  <rect x="4" y="4" width="56" height="56" rx="16" fill="url(#bgGrad)" />
+  <!-- ECG Heartbeat Line -->
+  <path d="M 12 32 L 22 32 L 26 21 L 31 43 L 36 25 L 40 35 L 44 32 L 52 32" 
+        fill="none" 
+        stroke="#ffffff" 
+        stroke-width="4.2" 
+        stroke-linecap="round" 
+        stroke-linejoin="round" 
+        filter="url(#glow)" />
+  <!-- Accent Pulse Node -->
+  <circle cx="36" cy="25" r="2.8" fill="#38bdf8" />
+</svg>

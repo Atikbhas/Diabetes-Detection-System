@@ -1,0 +1,269 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin Dashboard — Diabetes Detection System{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <!-- Admin Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+        <div>
+            <span class="badge badge-admin px-3 py-2 fs-6 mb-2">
+                <i class="bi bi-shield-lock-fill me-1"></i>Administrator Control Panel
+            </span>
+            <h2 class="fw-bold text-dark mb-0">System Overview & User Records</h2>
+        </div>
+        <div class="d-flex gap-2">
+            <a href="{{ url_for('predict') }}" class="btn btn-outline-primary rounded-pill">
+                <i class="bi bi-cpu me-1"></i>Run Prediction
+            </a>
+        </div>
+    </div>
+
+    <!-- Stats Overview Cards -->
+    <div class="row g-4 mb-5">
+        <div class="col-sm-6 col-lg-3">
+            <div class="card card-custom p-3 border-0 bg-primary bg-opacity-10 text-primary">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <span class="text-uppercase small fw-bold text-muted">Total Users</span>
+                        <h2 class="fw-extrabold mb-0 text-primary">{{ total_users }}</h2>
+                    </div>
+                    <i class="bi bi-people-fill fs-1"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-lg-3">
+            <div class="card card-custom p-3 border-0 bg-info bg-opacity-10 text-info">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <span class="text-uppercase small fw-bold text-muted">Total Predictions</span>
+                        <h2 class="fw-extrabold mb-0 text-info">{{ total_preds }}</h2>
+                    </div>
+                    <i class="bi bi-activity fs-1"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-lg-3">
+            <div class="card card-custom p-3 border-0 bg-danger bg-opacity-10 text-danger">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <span class="text-uppercase small fw-bold text-muted">Diabetic Cases</span>
+                        <h2 class="fw-extrabold mb-0 text-danger">{{ diabetic_count }}</h2>
+                    </div>
+                    <i class="bi bi-exclamation-triangle-fill fs-1"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-lg-3">
+            <div class="card card-custom p-3 border-0 bg-warning bg-opacity-10 text-warning">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <span class="text-uppercase small fw-bold text-muted text-dark">Feedbacks</span>
+                        <h2 class="fw-extrabold mb-0 text-dark">{{ feedback_count }}</h2>
+                    </div>
+                    <i class="bi bi-chat-left-quote-fill fs-1 text-dark"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Nav Tabs for Admin Sections -->
+    <ul class="nav nav-pills mb-4" id="adminTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active rounded-pill fw-bold" id="preds-tab" data-bs-toggle="tab" data-bs-target="#preds-pane" type="button" role="tab">
+                <i class="bi bi-table me-2"></i>All User Predictions ({{ predictions|length }})
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link rounded-pill fw-bold" id="users-tab" data-bs-toggle="tab" data-bs-target="#users-pane" type="button" role="tab">
+                <i class="bi bi-people me-2"></i>User Accounts ({{ users|length }})
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link rounded-pill fw-bold" id="feedback-tab" data-bs-toggle="tab" data-bs-target="#feedback-pane" type="button" role="tab">
+                <i class="bi bi-star me-2"></i>Feedback Submissions ({{ feedbacks|length }})
+            </button>
+        </li>
+    </ul>
+
+    <div class="tab-content" id="adminTabsContent">
+        <!-- Tab 1: Predictions Table with Filters -->
+        <div class="tab-pane fade show active" id="preds-pane" role="tabpanel">
+            <div class="card card-custom p-3 mb-4">
+                <form action="{{ url_for('admin_dashboard') }}" method="GET" class="row g-3 align-items-center">
+                    <div class="col-md-4">
+                        <label for="user_id" class="form-label small fw-semibold text-muted mb-1">Filter by User</label>
+                        <select name="user_id" id="user_id" class="form-select form-select-sm" onchange="this.form.submit()">
+                            <option value="" {% if not selected_user %}selected{% endif %}>All Registered Users</option>
+                            {% for u in users %}
+                            <option value="{{ u.id }}" {% if selected_user|string == u.id|string %}selected{% endif %}>
+                                {{ u.username }} ({{ u.email }})
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label for="result_filter" class="form-label small fw-semibold text-muted mb-1">Filter by Screening Outcome</label>
+                        <select name="result_filter" id="result_filter" class="form-select form-select-sm" onchange="this.form.submit()">
+                            <option value="" {% if not selected_result %}selected{% endif %}>All Outcomes</option>
+                            <option value="Diabetic" {% if selected_result == 'Diabetic' %}selected{% endif %}>Diabetic Only</option>
+                            <option value="Not Diabetic" {% if selected_result == 'Not Diabetic' %}selected{% endif %}>Not Diabetic Only</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-4 text-md-end mt-4">
+                        <a href="{{ url_for('admin_dashboard') }}" class="btn btn-sm btn-outline-secondary rounded-pill">
+                            <i class="bi bi-x-circle me-1"></i>Reset Filters
+                        </a>
+                    </div>
+                </form>
+            </div>
+
+            <div class="card card-custom p-0 overflow-hidden shadow-sm">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle table-custom mb-0">
+                        <thead>
+                            <tr>
+                                <th class="ps-4">ID</th>
+                                <th>Patient / User</th>
+                                <th>Glucose</th>
+                                <th>BP</th>
+                                <th>BMI</th>
+                                <th>Insulin</th>
+                                <th>Outcome</th>
+                                <th>Probability</th>
+                                <th>Timestamp</th>
+                                <th class="text-end pe-4">Report</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if predictions %}
+                                {% for p in predictions %}
+                                <tr>
+                                    <td class="ps-4 fw-bold text-secondary">#{{ p.id }}</td>
+                                    <td>
+                                        <div class="fw-bold text-dark">{{ p.username }}</div>
+                                        <span class="small text-muted">{{ p.email }}</span>
+                                    </td>
+                                    <td>{{ p.glucose }}</td>
+                                    <td>{{ p.blood_pressure }}</td>
+                                    <td>{{ p.bmi }}</td>
+                                    <td>{{ p.insulin }}</td>
+                                    <td>
+                                        {% if p.result == 'Diabetic' %}
+                                        <span class="badge badge-diabetic">Diabetic</span>
+                                        {% else %}
+                                        <span class="badge badge-healthy">Not Diabetic</span>
+                                        {% endif %}
+                                    </td>
+                                    <td class="fw-bold">{{ "%.1f"|format(p.probability) }}%</td>
+                                    <td class="small text-muted">{{ p.created_at }}</td>
+                                    <td class="text-end pe-4">
+                                        <a href="{{ url_for('result', pred_id=p.id) }}" class="btn btn-sm btn-outline-primary rounded-pill me-1">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                        <a href="{{ url_for('download_report', pred_id=p.id) }}" class="btn btn-sm btn-success rounded-pill">
+                                            <i class="bi bi-file-earmark-pdf"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr>
+                                    <td colspan="10" class="text-center py-5 text-muted">
+                                        No prediction records match the selected filters.
+                                    </td>
+                                </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab 2: Registered User Accounts -->
+        <div class="tab-pane fade" id="users-pane" role="tabpanel">
+            <div class="card card-custom p-0 overflow-hidden shadow-sm">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle table-custom mb-0">
+                        <thead>
+                            <tr>
+                                <th class="ps-4">User ID</th>
+                                <th>Username</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Account Created</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for u in users %}
+                            <tr>
+                                <td class="ps-4 fw-bold text-secondary">#{{ u.id }}</td>
+                                <td class="fw-bold text-dark">{{ u.username }}</td>
+                                <td>{{ u.email }}</td>
+                                <td>
+                                    {% if u.is_admin %}
+                                    <span class="badge badge-admin"><i class="bi bi-shield-check me-1"></i>Administrator</span>
+                                    {% else %}
+                                    <span class="badge bg-secondary">Regular User</span>
+                                    {% endif %}
+                                </td>
+                                <td class="small text-muted">{{ u.created_at }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab 3: Feedback Submissions -->
+        <div class="tab-pane fade" id="feedback-pane" role="tabpanel">
+            <div class="card card-custom p-0 overflow-hidden shadow-sm">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle table-custom mb-0">
+                        <thead>
+                            <tr>
+                                <th class="ps-4">ID</th>
+                                <th>Submitted By</th>
+                                <th>Rating</th>
+                                <th>Message</th>
+                                <th>Submitted At</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if feedbacks %}
+                                {% for fb in feedbacks %}
+                                <tr>
+                                    <td class="ps-4 fw-bold text-secondary">#{{ fb.id }}</td>
+                                    <td>
+                                        <div class="fw-bold text-dark">{{ fb.name }}</div>
+                                        <span class="small text-muted">{{ fb.email }}</span>
+                                    </td>
+                                    <td>
+                                        <span class="text-warning fw-bold">
+                                            {% for _ in range(fb.rating) %}<i class="bi bi-star-fill"></i>{% endfor %}
+                                            ({{ fb.rating }}/5)
+                                        </span>
+                                    </td>
+                                    <td style="max-width: 400px;">{{ fb.message }}</td>
+                                    <td class="small text-muted">{{ fb.created_at }}</td>
+                                </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr>
+                                    <td colspan="5" class="text-center py-4 text-muted">No feedback submissions yet.</td>
+                                </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
