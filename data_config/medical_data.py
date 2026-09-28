@@ -140,7 +140,7 @@ LIFESTYLE_RECOMMENDATIONS = [
 ]
 
 DOCTOR_ADVISORY = {
-    "disclaimer": "This tool is powered by Machine Learning and serves as an educational screening aid. It DOES NOT replace a professional clinical diagnosis.",
+    "disclaimer": "This tool is an educational screening aid and DOES NOT replace a professional clinical diagnosis.",
     "immediate_consultation": {
         "condition": "Fasting Glucose > 180 mg/dL or Blood Pressure > 100 mm Hg or severe symptoms",
         "action": "Immediate Medical Consultation Required",

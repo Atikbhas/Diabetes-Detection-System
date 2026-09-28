@@ -37,7 +37,7 @@ from model.train_model import train_and_save_model
 from init_db import init_database
 
 app = Flask(__name__)
-app.secret_key = 'diabetes_detection_system_secret_key_2026'
+app.secret_key = os.environ.get('SECRET_KEY', 'local-development-secret-key')
 
 # Setup Flask-Login
 login_manager = LoginManager()
