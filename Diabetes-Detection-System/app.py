@@ -1,18 +1,12 @@
-# ==============================================================================
-# DIABETES DETECTION SYSTEM (DDS) — MAIN FLASK APPLICATION
-# ==============================================================================
-# Main backend application entry point.
-# Aa file ma badha Flask routes, ML prediction, chart rendering ane PDF generation nu logic chhe.
-# ==============================================================================
-
 import os
 import io
 import base64
 import pickle
 import sqlite3
 import numpy as np
+import pandas as pd
 import matplotlib  # type: ignore[import-not-found]
-matplotlib.use('Agg')  # Non-interactive backend for server-side chart rendering (Fast & thread-safe)
+matplotlib.use('Agg')  # Non-interactive backend for server-side chart rendering
 import matplotlib.pyplot as plt  # type: ignore[import-not-found]
 
 from flask import (  # type: ignore[import-not-found]
@@ -26,15 +20,15 @@ from flask_login import (  # type: ignore[import-not-found]
 from werkzeug.security import generate_password_hash, check_password_hash
 
 # Import ReportLab modules for PDF generation
-from reportlab.lib.pagesizes import letter  # type: ignore[import-not-found]
-from reportlab.lib import colors  # type: ignore[import-not-found]
-from reportlab.platypus import (  # type: ignore[import-not-found]
+from reportlab.lib.pagesizes import letter
+from reportlab.lib import colors
+from reportlab.platypus import (
     SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, Image, KeepTogether, HRFlowable
 )
-from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle  # type: ignore[import-not-found]
-from reportlab.lib.units import inch  # type: ignore[import-not-found]
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.lib.units import inch
 
-# Import medical data config & ML trainer
+# Import medical data config
 from data_config.medical_data import (
     FIELD_GUIDANCE, HEALTHY_MEDIANS, WEEKLY_DIET_PLAN, 
     LIFESTYLE_RECOMMENDATIONS, DOCTOR_ADVISORY
@@ -42,34 +36,27 @@ from data_config.medical_data import (
 from model.train_model import train_and_save_model
 from init_db import init_database
 
-# ------------------------------------------------------------------------------
-# 1. FLASK APP CONFIGURATION & SESSION MANAGEMENT
-# ------------------------------------------------------------------------------
 app = Flask(__name__)
-app.secret_key = os.environ.get('SECRET_KEY', 'local-development-secret-key')
+app.secret_key = 'diabetes_detection_system_secret_key_2026'
 
-# User login status ane authentication control karva mate Flask-Login setup
+# Setup Flask-Login
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 login_manager.login_message_category = 'warning'
 
-# Directory paths setup, jethi database ane trained model files easily male
+# Base paths
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.path.join(BASE_DIR, 'database.db')
 MODEL_PATH = os.path.join(BASE_DIR, 'model', 'diabetes_model.pkl')
 SCALER_PATH = os.path.join(BASE_DIR, 'model', 'scaler.pkl')
 
-# ------------------------------------------------------------------------------
-# 2. DATABASE HELPER & USER MODEL
-# ------------------------------------------------------------------------------
-# SQLite Database connection helper - Connection kholse ane rows ne dictionary format ma return karse
 def get_db_connection():
     conn = sqlite3.connect(DB_PATH)
     conn.row_factory = sqlite3.Row
     return conn
 
-# User object definition for Flask-Login (id, username, email, is_admin status)
+# User Model for Flask-Login
 class User(UserMixin):
     def __init__(self, id, username, email, is_admin):
         self.id = id
@@ -79,7 +66,6 @@ class User(UserMixin):
 
 @login_manager.user_loader
 def load_user(user_id):
-    # Session ma thi user ID par thi database ma thi user record fetch karva mate
     conn = get_db_connection()
     user_row = conn.execute('SELECT * FROM users WHERE id = ?', (user_id,)).fetchone()
     conn.close()
@@ -87,13 +73,7 @@ def load_user(user_id):
         return User(user_row['id'], user_row['username'], user_row['email'], user_row['is_admin'])
     return None
 
-import warnings
-warnings.filterwarnings("ignore", category=UserWarning)
-
-# ------------------------------------------------------------------------------
-# 3. ML MODEL & SCALER LOADER
-# ------------------------------------------------------------------------------
-# Trained Random Forest Model ane StandardScaler load karse (missing hoy to auto train karse)
+# Load ML Model & Scaler on Startup
 def load_ml_components():
     if not os.path.exists(MODEL_PATH) or not os.path.exists(SCALER_PATH):
         print("ML model files missing. Training model automatically...")
@@ -105,17 +85,13 @@ def load_ml_components():
         scaler = pickle.load(f)
     return model, scaler
 
-# Startup initialization
+# Ensure DB and ML model exist
 init_database()
 ml_model, ml_scaler = load_ml_components()
 
-# ------------------------------------------------------------------------------
-# 4. SERVER-SIDE MATPLOTLIB CHART GENERATORS
-# ------------------------------------------------------------------------------
-
-# Patient na risk probability percentage ne visual progress bar chart ma convert karse
+# Chart Generator 1: Risk Probability Gauge / Bar
 def generate_risk_chart(probability):
-    fig, ax = plt.subplots(figsize=(6, 2.0), dpi=100)
+    fig, ax = plt.subplots(figsize=(6, 2.2), dpi=150)
     fig.patch.set_facecolor('#ffffff')
     ax.set_facecolor('#f8f9fa')
     
@@ -132,7 +108,7 @@ def generate_risk_chart(probability):
     # Annotate risk level & score
     ax.text(probability / 2 if probability > 15 else probability + 3, 0, f"{probability:.1f}%", 
             va='center', ha='center' if probability > 15 else 'left', 
-            color='white' if probability > 15 else '#212529', fontweight='bold', fontsize=11)
+            color='white' if probability > 15 else '#212529', fontweight='bold', fontsize=12)
     
     risk_label = "LOW RISK" if probability < 40 else ("MODERATE RISK" if probability < 70 else "HIGH RISK")
     ax.text(50, 0.4, f"Predicted Risk Score: {probability:.1f}% ({risk_label})", 
@@ -141,17 +117,16 @@ def generate_risk_chart(probability):
     plt.tight_layout()
     
     buf = io.BytesIO()
-    plt.savefig(buf, format='png', bbox_inches='tight', facecolor=fig.get_facecolor(), dpi=100)
+    plt.savefig(buf, format='png', bbox_inches='tight', facecolor=fig.get_facecolor())
     buf.seek(0)
+    base64_img = base64.b64encode(buf.getvalue()).decode('utf-8')
     raw_bytes = buf.getvalue()
-    base64_img = base64.b64encode(raw_bytes).decode('utf-8')
     plt.close(fig)
     return base64_img, raw_bytes
 
 # Chart Generator 2: Parameter Comparison Chart vs Healthy Reference Baseline
-# Patient na Glucose, BP, Insulin ane BMI ne Healthy baseline median sathe compare karse.
 def generate_comparison_chart(inputs):
-    fig, ax = plt.subplots(figsize=(6.5, 3.2), dpi=100)
+    fig, ax = plt.subplots(figsize=(7, 3.5), dpi=150)
     fig.patch.set_facecolor('#ffffff')
     ax.set_facecolor('#ffffff')
     
@@ -165,10 +140,10 @@ def generate_comparison_chart(inputs):
     rects1 = ax.bar(x - width/2, patient_vals, width, label='Patient Level', color='#0d6efd', alpha=0.9)
     rects2 = ax.bar(x + width/2, reference_vals, width, label='Healthy Baseline Median', color='#198754', alpha=0.7)
     
-    ax.set_ylabel('Measured Values', fontsize=9, fontweight='bold')
-    ax.set_title('Patient Parameters vs. Healthy Population Baselines', fontsize=11, fontweight='bold', pad=10)
+    ax.set_ylabel('Measured Values', fontsize=10, fontweight='bold')
+    ax.set_title('Patient Parameters vs. Healthy Population Baselines', fontsize=12, fontweight='bold', pad=12)
     ax.set_xticks(x)
-    ax.set_xticklabels(metrics, fontweight='bold', fontsize=9)
+    ax.set_xticklabels(metrics, fontweight='bold', fontsize=10)
     ax.legend(frameon=True, facecolor='#f8f9fa', edgecolor='none')
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
@@ -186,18 +161,14 @@ def generate_comparison_chart(inputs):
 
     plt.tight_layout()
     buf = io.BytesIO()
-    plt.savefig(buf, format='png', bbox_inches='tight', dpi=100)
+    plt.savefig(buf, format='png', bbox_inches='tight')
     buf.seek(0)
+    base64_img = base64.b64encode(buf.getvalue()).decode('utf-8')
     raw_bytes = buf.getvalue()
-    base64_img = base64.b64encode(raw_bytes).decode('utf-8')
     plt.close(fig)
     return base64_img, raw_bytes
 
-# ------------------------------------------------------------------------------
-# 5. DYNAMIC PDF REPORT GENERATION (ReportLab Engine)
-# ------------------------------------------------------------------------------
-# Downloadable PDF report generate karse - jema patient metrics, charts,
-# diet plan ane doctor consultation advisory include thase.
+# PDF Generation Function
 def create_pdf_report(user_name, user_email, pred_row, risk_chart_bytes, comp_chart_bytes):
     pdf_buf = io.BytesIO()
     doc = SimpleDocTemplate(pdf_buf, pagesize=letter, rightMargin=36, leftMargin=36, topMargin=36, bottomMargin=36)
@@ -314,11 +285,7 @@ def create_pdf_report(user_name, user_email, pred_row, risk_chart_bytes, comp_ch
     pdf_buf.seek(0)
     return pdf_buf
 
-# ------------------------------------------------------------------------------
-# 6. ML PREDICTION PIPELINE & DB PERSISTENCE
-# ------------------------------------------------------------------------------
-# Form na 8 inputs ne numpy array ma convert karse, StandardScaler transform karse,
-# Random Forest Model prediction (class & probability %) run karse ane DB ma save karse.
+# Prediction Execution & DB Helper
 def process_prediction_and_save(user_id, form_dict):
     pregnancies = int(form_dict.get('pregnancies', 0))
     glucose = float(form_dict.get('glucose', 0.0))
@@ -353,14 +320,7 @@ def process_prediction_and_save(user_id, form_dict):
     
     return pred_id
 
-# ==============================================================================
-# 7. FLASK HTTP ENDPOINTS & ROUTING CONTROLLERS
-# ==============================================================================
-# Badha Web Routes - Home, About, Stats, Predict, Results, PDF Download, Admin Panel.
-
-@app.route('/favicon.ico')
-def favicon():
-    return send_file(os.path.join(BASE_DIR, 'static', 'favicon.svg'), mimetype='image/svg+xml')
+# ROUTES
 
 @app.route('/')
 def home():
@@ -646,11 +606,6 @@ def feedback():
         
     return render_template('feedback.html')
 
-# ------------------------------------------------------------------------------
-# ADMIN DASHBOARD ROUTE (Role-based protected route)
-# ------------------------------------------------------------------------------
-# Sirf Admin users j aa page access kari sake chhe. Total users, predictions count,
-# diabetic ratio, patient logs ane feedback summaries display thase.
 @app.route('/admin')
 @login_required
 def admin_dashboard():
@@ -706,10 +661,6 @@ def admin_dashboard():
         selected_result=result_filter
     )
 
-# ------------------------------------------------------------------------------
-# APPLICATION LAUNCHER
-# ------------------------------------------------------------------------------
-# Flask server start karva mate main entry point (Port 5000 par run thase).
 if __name__ == '__main__':
     print("Starting Diabetes Detection System Flask Application...")
     app.run(host='0.0.0.0', port=5000, debug=True)

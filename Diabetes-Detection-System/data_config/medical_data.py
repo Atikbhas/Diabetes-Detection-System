@@ -1,15 +1,5 @@
-# ==============================================================================
-# DIABETES DETECTION SYSTEM — MEDICAL DATA CONFIGURATION & ADVISORIES
-# ==============================================================================
-# Static dictionaries for form guidance, healthy baseline medians, weekly diet plans, and doctor advisories.
-# Aa file static configuration data store kare chhe - 8 clinical fields nu guidance,
-# healthy reference values, 7-day diabetic diet plan ane doctor advisories.
-# ==============================================================================
+# Data and configuration dictionary for Diabetes Detection System (DDS)
 
-# ------------------------------------------------------------------------------
-# 1. CLINICAL FIELD GUIDANCE & REFERENCE RANGES
-# Form na 8 metrics ni details, normal range, testing method ane medical tips.
-# ------------------------------------------------------------------------------
 FIELD_GUIDANCE = {
     "pregnancies": {
         "title": "Number of Pregnancies",
@@ -77,10 +67,6 @@ FIELD_GUIDANCE = {
     }
 }
 
-# ------------------------------------------------------------------------------
-# 2. HEALTHY POPULATION MEDIAN BASELINES FOR COMPARISON CHARTS
-# Patient na parameters compare karva mate healthy population median values.
-# ------------------------------------------------------------------------------
 HEALTHY_MEDIANS = {
     "pregnancies": 1,
     "glucose": 95.0,
@@ -92,10 +78,6 @@ HEALTHY_MEDIANS = {
     "age": 30
 }
 
-# ------------------------------------------------------------------------------
-# 3. WEEKLY DIET PLAN FOR DIABETIC / HIGH RISK PATIENTS
-# High-risk patient mate customized 7-day breakfast, lunch, dinner & snack diet.
-# ------------------------------------------------------------------------------
 WEEKLY_DIET_PLAN = [
     {
         "day": "Monday",
@@ -148,10 +130,6 @@ WEEKLY_DIET_PLAN = [
     }
 ]
 
-# ------------------------------------------------------------------------------
-# 4. LIFESTYLE RECOMMENDATIONS
-# Lifestyle ane physical activity recommendations.
-# ------------------------------------------------------------------------------
 LIFESTYLE_RECOMMENDATIONS = [
     "Engage in at least 30 minutes of moderate aerobic exercise (brisk walking, cycling, swimming) 5 days a week.",
     "Include strength training or resistance exercises 2 times a week to improve cellular insulin sensitivity.",
@@ -161,12 +139,8 @@ LIFESTYLE_RECOMMENDATIONS = [
     "Practice stress reduction techniques such as deep breathing exercises, yoga, or daily mindfulness meditation."
 ]
 
-# ------------------------------------------------------------------------------
-# 5. DOCTOR CONSULTATION ADVISORY & CLINICAL DISCLAIMERS
-# Emergency guidance, specialist recommendations ane required lab tests.
-# ------------------------------------------------------------------------------
 DOCTOR_ADVISORY = {
-    "disclaimer": "This tool is an educational screening aid and DOES NOT replace a professional clinical diagnosis.",
+    "disclaimer": "This tool is powered by Machine Learning and serves as an educational screening aid. It DOES NOT replace a professional clinical diagnosis.",
     "immediate_consultation": {
         "condition": "Fasting Glucose > 180 mg/dL or Blood Pressure > 100 mm Hg or severe symptoms",
         "action": "Immediate Medical Consultation Required",

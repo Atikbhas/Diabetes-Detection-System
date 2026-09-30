@@ -15,10 +15,6 @@
   --box-shadow: 0 8px 24px rgba(13, 110, 253, 0.08);
 }
 
-html {
-  scroll-behavior: smooth;
-}
-
 body {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   background: var(--bg-gradient);
@@ -26,9 +22,6 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
 }
 
 main.content-wrapper {
@@ -38,12 +31,10 @@ main.content-wrapper {
 
 /* Glassmorphism Navbar */
 .navbar-custom {
-  background: rgba(255, 255, 255, 0.94);
+  background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
   box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
   border-bottom: 1px solid rgba(13, 110, 253, 0.1);
-  will-change: transform;
 }
 
 .navbar-brand-logo {
@@ -63,7 +54,7 @@ main.content-wrapper {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out;
+  transition: all 0.2s ease;
 }
 
 .nav-link:hover, .nav-link.active {
@@ -82,7 +73,7 @@ main.content-wrapper {
 .footer-custom a {
   color: #94a3b8;
   text-decoration: none;
-  transition: color 0.15s ease;
+  transition: color 0.2s ease;
 }
 
 .footer-custom a:hover {
@@ -95,13 +86,11 @@ main.content-wrapper {
   border: 1px solid rgba(226, 232, 240, 0.8);
   border-radius: var(--border-radius);
   box-shadow: var(--box-shadow);
-  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: transform, box-shadow;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .card-custom:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 28px rgba(13, 110, 253, 0.12);
+  box-shadow: 0 12px 30px rgba(13, 110, 253, 0.12);
 }
 
 /* Hero Section */
@@ -121,7 +110,6 @@ main.content-wrapper {
 .hero-badge {
   background: rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
   padding: 0.5rem 1.25rem;
   border-radius: 50px;
   font-weight: 600;
@@ -135,22 +123,12 @@ main.content-wrapper {
   max-height: calc(100vh - 110px);
   overflow-y: auto;
   border-left: 4px solid var(--primary-color);
-  overscroll-behavior: contain;
-  scroll-behavior: smooth;
 }
 
 .guidance-card {
   border: 1px solid #e2e8f0;
   border-radius: 10px;
   background: #f8fafc;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
-}
-
-.guidance-card.active-guidance {
-  border-color: var(--primary-color) !important;
-  box-shadow: 0 4px 16px rgba(13, 110, 253, 0.15) !important;
-  background: #ffffff !important;
-  transform: translateX(4px);
 }
 
 /* BMI Calculator Box */
@@ -190,22 +168,9 @@ main.content-wrapper {
 }
 
 /* Form Controls */
-.form-control, .form-select {
-  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-}
-
 .form-control:focus, .form-select:focus {
   border-color: var(--primary-color);
   box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
-}
-
-/* Smooth Buttons */
-.btn {
-  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.btn:active {
-  transform: scale(0.98);
 }
 
 /* Star Rating Radio Group */
@@ -222,7 +187,7 @@ main.content-wrapper {
   font-size: 1.8rem;
   color: #cbd5e1;
   cursor: pointer;
-  transition: color 0.15s;
+  transition: color 0.2s;
 }
 .star-rating input:checked ~ label,
 .star-rating label:hover,
@@ -244,4 +209,3 @@ main.content-wrapper {
   font-weight: 600;
   border-bottom: 2px solid #e2e8f0;
 }
-

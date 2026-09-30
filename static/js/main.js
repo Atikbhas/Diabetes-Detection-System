@@ -1,7 +1,15 @@
-// Main Client-side Script for Diabetes Detection System (DDS)
+// ==============================================================================
+// MAIN CLIENT-SIDE SCRIPT — DIABETES DETECTION SYSTEM (DDS)
+// ==============================================================================
+// Client-side JavaScript code. Handles BMI calculation, form focus guidance sync,
+// form submit loading spinner ane alert auto-dismiss mate functionality cover kare chhe.
+// ==============================================================================
 
 document.addEventListener('DOMContentLoaded', function () {
-    // 1. BMI Interactive Calculator Widget Logic
+    // --------------------------------------------------------------------------
+    // 1. BMI INTERACTIVE CALCULATOR WIDGET LOGIC
+    // Height (cm) ane Weight (kg) par thi BMI calculate kari prediction form ma auto-fill karse.
+    // --------------------------------------------------------------------------
     const calcBtn = document.getElementById('calc-bmi-btn');
     if (calcBtn) {
         calcBtn.addEventListener('click', function () {
@@ -37,34 +45,74 @@ document.addEventListener('DOMContentLoaded', function () {
 
             if (bmiInput) {
                 bmiInput.value = roundedBMI;
-                // Highlight filled input
-                bmiInput.classList.add('is-valid');
-                setTimeout(() => bmiInput.classList.remove('is-valid'), 2000);
+                // Highlight filled input smoothly
+                bmiInput.classList.add('is-valid', 'border-success');
+                setTimeout(() => bmiInput.classList.remove('is-valid', 'border-success'), 2000);
             }
         });
     }
 
-    // 2. Field Focus Guidance Focus Sync
+    // --------------------------------------------------------------------------
+    // 2. FIELD FOCUS GUIDANCE SYNC (Smooth internal sidebar scroll)
+    // Form input focus thaye tyare corresponding guidance card active thase.
+    // Main page ma koi lag vager internal sidebar ma smoothly scroll thase.
+    // --------------------------------------------------------------------------
     const inputs = document.querySelectorAll('.medical-input');
+    const guidanceCards = document.querySelectorAll('.guidance-card');
+    const sidebar = document.querySelector('.guidance-sidebar');
+
     inputs.forEach(input => {
         input.addEventListener('focus', function () {
             const fieldName = this.dataset.guidanceKey || this.name;
             const guidanceCard = document.getElementById(`guidance-${fieldName}`);
             if (guidanceCard) {
-                // Remove existing highlights
-                document.querySelectorAll('.guidance-card').forEach(c => c.classList.remove('border-primary', 'shadow'));
-                guidanceCard.classList.add('border-primary', 'shadow');
-                guidanceCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                guidanceCards.forEach(c => c.classList.remove('active-guidance'));
+                guidanceCard.classList.add('active-guidance');
+                
+                // Smoothly scroll ONLY the internal sidebar container without forcing window reflow
+                if (sidebar) {
+                    const cardTop = guidanceCard.offsetTop - sidebar.offsetTop - 10;
+                    sidebar.scrollTo({ top: Math.max(0, cardTop), behavior: 'smooth' });
+                }
+            }
+        });
+
+        // Mouse wheel scroll thi number values accidental change na thaye te mate blur handler.
+        input.addEventListener('wheel', function (e) {
+            if (document.activeElement === this) {
+                this.blur();
             }
         });
     });
 
-    // 3. Auto-dismiss flash alerts
+    // --------------------------------------------------------------------------
+    // 3. FORM SUBMIT BUTTON LOADING STATE & DOUBLE-CLICK PREVENTION
+    // Form submit karta j submit button disable thase ane spinner show thase.
+    // --------------------------------------------------------------------------
+    const forms = document.querySelectorAll('form');
+    forms.forEach(form => {
+        form.addEventListener('submit', function () {
+            const submitBtn = form.querySelector('button[type="submit"]');
+            if (submitBtn && !submitBtn.disabled) {
+                submitBtn.disabled = true;
+                const originalText = submitBtn.innerHTML;
+                submitBtn.innerHTML = `<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Processing...`;
+            }
+        });
+    });
+
+    // --------------------------------------------------------------------------
+    // 4. AUTO-DISMISS FLASH ALERTS
+    // Success/warning flash alerts 5 seconds pachi automatic hide thai jase.
+    // --------------------------------------------------------------------------
     const alerts = document.querySelectorAll('.alert-dismissible');
     alerts.forEach(alert => {
         setTimeout(() => {
-            const bsAlert = new bootstrap.Alert(alert);
-            bsAlert.close();
+            if (window.bootstrap && bootstrap.Alert) {
+                const bsAlert = bootstrap.Alert.getInstance(alert) || new bootstrap.Alert(alert);
+                bsAlert.close();
+            }
         }, 5000);
     });
 });
+

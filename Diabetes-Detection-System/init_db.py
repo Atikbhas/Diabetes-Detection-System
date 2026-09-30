@@ -1,11 +1,3 @@
-# ==============================================================================
-# DIABETES DETECTION SYSTEM — DATABASE INITIALIZATION SCRIPT
-# ==============================================================================
-# Initializes SQLite database schema (users, predictions, feedback, contact).
-# Aa script SQLite database initialize kare chhe, badha tables banave chhe,
-# ane pre-seeded admin/user demo accounts create kare chhe.
-# ==============================================================================
-
 import sqlite3
 import os
 from werkzeug.security import generate_password_hash
@@ -18,10 +10,7 @@ def init_database():
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
     
-    # --------------------------------------------------------------------------
-    # TABLE 1: USERS TABLE (User authentication & role storage)
-    # Users no table - jema username, email, password hash ane admin flag save thase.
-    # --------------------------------------------------------------------------
+    # Create users table
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -33,10 +22,7 @@ def init_database():
         )
     ''')
     
-    # --------------------------------------------------------------------------
-    # TABLE 2: PREDICTIONS TABLE (Patient clinical metric log & ML results)
-    # Patient na assessment results ane 8 clinical metrics save karva mate.
-    # --------------------------------------------------------------------------
+    # Create predictions table
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS predictions (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -56,10 +42,7 @@ def init_database():
         )
     ''')
     
-    # --------------------------------------------------------------------------
-    # TABLE 3: FEEDBACK TABLE (User rating & review collection)
-    # User feedback ane ratings store karva mate.
-    # --------------------------------------------------------------------------
+    # Create feedback table
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS feedback (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -71,10 +54,7 @@ def init_database():
         )
     ''')
     
-    # --------------------------------------------------------------------------
-    # TABLE 4: CONTACT SUBMISSIONS TABLE (Support form submissions)
-    # Contact page par thi aavela inquiry messages store thase.
-    # --------------------------------------------------------------------------
+    # Create contact_submissions table
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS contact_submissions (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -86,44 +66,32 @@ def init_database():
         )
     ''')
     
-    # --------------------------------------------------------------------------
-    # SEED DATA: ADMIN & DEMO PATIENT ACCOUNTS
-    # Default demo accounts: Jay Sitapara (Admin), Atik Bhas (Admin), demo_patient
-    # --------------------------------------------------------------------------
+    # Pre-seed Admin and User accounts
     preseeded_users = [
-        ('Jay Sitapara', 'jay.sitapara@dds.com', generate_password_hash('admin123'), 1),
-        ('Atik Bhas', 'atik.bhas@dds.com', generate_password_hash('admin123'), 1),
+        ('Jay', 'jay@dds.com', generate_password_hash('admin123'), 1),
+        ('Atik', 'atik@dds.com', generate_password_hash('admin123'), 1),
         ('demo_patient', 'patient@dds.com', generate_password_hash('user123'), 0)
     ]
     
     for username, email, pwd_hash, is_admin in preseeded_users:
-        cursor.execute('SELECT id FROM users WHERE username = ? OR email = ?', (username, email))
-        row = cursor.fetchone()
-        if not row:
+        cursor.execute('SELECT id FROM users WHERE username = ?', (username,))
+        if not cursor.fetchone():
             cursor.execute('''
                 INSERT INTO users (username, email, password_hash, is_admin)
                 VALUES (?, ?, ?, ?)
             ''', (username, email, pwd_hash, is_admin))
             print(f"Created preseeded user: {username} (Admin: {is_admin})")
-        else:
-            # Ensure names and emails are updated
-            cursor.execute('''
-                UPDATE users SET username = ?, email = ?, is_admin = ? WHERE id = ?
-            ''', (username, email, is_admin, row[0]))
             
-    # Get user ids for sample prediction mapping
-    cursor.execute('SELECT id FROM users WHERE username IN ("demo_patient", "Jay Sitapara")')
+    # Get user ids
+    cursor.execute('SELECT id FROM users WHERE username = "demo_patient"')
     patient_row = cursor.fetchone()
     patient_id = patient_row[0] if patient_row else 3
 
-    cursor.execute('SELECT id FROM users WHERE username = "Jay Sitapara"')
+    cursor.execute('SELECT id FROM users WHERE username = "Jay"')
     jay_row = cursor.fetchone()
     jay_id = jay_row[0] if jay_row else 1
 
-    # --------------------------------------------------------------------------
-    # SEED DATA: SAMPLE PREDICTIONS LOGS
-    # Demo history test karva mate sample records insert thay chhe.
-    # --------------------------------------------------------------------------
+    # Pre-seed sample predictions if empty
     cursor.execute('SELECT COUNT(*) FROM predictions')
     if cursor.fetchone()[0] == 0:
         sample_preds = [
@@ -138,15 +106,12 @@ def init_database():
         ''', sample_preds)
         print("Preseeded sample prediction records.")
         
-    # --------------------------------------------------------------------------
-    # SEED DATA: SAMPLE FEEDBACK ENTRIES
-    # Initial user reviews ane testimonials insert karva mate.
-    # --------------------------------------------------------------------------
+    # Pre-seed sample feedback if empty
     cursor.execute('SELECT COUNT(*) FROM feedback')
     if cursor.fetchone()[0] == 0:
         sample_feedback = [
-            ('Jay Sitapara', 'jay.sitapara@dds.com', 5, 'Extremely helpful tool! The BMI calculator and guidance notes were very easy to follow.', '2026-09-11 11:20:00'),
-            ('Atik Bhas', 'atik.bhas@dds.com', 5, 'Great visualization charts and instant PDF download. Really appreciate the 7-day diet suggestions.', '2026-09-13 15:45:00')
+            ('Sarah Jenkins', 'sarah@example.com', 5, 'Extremely helpful tool! The BMI calculator and guidance notes were very easy to follow.', '2026-09-11 11:20:00'),
+            ('Robert Chen', 'robert@example.com', 4, 'Great visualization charts and instant PDF download. Really appreciate the 7-day diet suggestions.', '2026-09-13 15:45:00')
         ]
         cursor.executemany('''
             INSERT INTO feedback (name, email, rating, message, created_at)

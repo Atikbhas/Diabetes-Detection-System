@@ -33,8 +33,8 @@ The system predicts diabetes risk based on 8 clinical physiological parameters, 
 
 | Role | Username | Email | Password |
 | :--- | :--- | :--- | :--- |
-| **Admin 1** | `Jay Sitapara` | `jay.sitapara@dds.com` | `admin123` |
-| **Admin 2** | `Atik Bhas` | `atik.bhas@dds.com` | `admin123` |
+| **Admin** | `Jay` | `jay@dds.com` | `admin123` |
+| **Admin** | `Atik` | `atik@dds.com` | `admin123` |
 | **Patient** | `demo_patient` | `patient@dds.com` | `user123` |
 
 ---
