@@ -23,3 +23,13 @@ env/
 .idea/
 .DS_Store
 Thumbs.db
+
+# Untracked external generator scripts and temporary artifacts
+Empires_*
+build_docx_report.py
+build_reports.py
+diagram_*.png
+empires_*.html
+page_*.png
+screenshot_*.png
+test_pw.pdf

@@ -23,7 +23,7 @@ from flask_login import (  # type: ignore[import-not-found]
     LoginManager, UserMixin, login_user, 
     logout_user, login_required, current_user
 )
-from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash  # type: ignore[import-not-found]
 
 # Import ReportLab modules for PDF generation
 from reportlab.lib.pagesizes import letter  # type: ignore[import-not-found]
@@ -39,7 +39,6 @@ from data_config.medical_data import (
     FIELD_GUIDANCE, HEALTHY_MEDIANS, WEEKLY_DIET_PLAN, 
     LIFESTYLE_RECOMMENDATIONS, DOCTOR_ADVISORY
 )
-from model.train_model import train_and_save_model
 from init_db import init_database
 
 # ------------------------------------------------------------------------------
@@ -96,13 +95,15 @@ warnings.filterwarnings("ignore", category=UserWarning)
 # Trained Random Forest Model ane StandardScaler load karse (missing hoy to auto train karse)
 def load_ml_components():
     if not os.path.exists(MODEL_PATH) or not os.path.exists(SCALER_PATH):
-        print("ML model files missing. Training model automatically...")
+        print("[*] ML model files missing. Training model automatically...")
+        from model.train_model import train_and_save_model
         train_and_save_model()
         
     with open(MODEL_PATH, 'rb') as f:
         model = pickle.load(f)
     with open(SCALER_PATH, 'rb') as f:
         scaler = pickle.load(f)
+    print("[+] ML model and scaler loaded successfully.")
     return model, scaler
 
 # Startup initialization
@@ -711,5 +712,9 @@ def admin_dashboard():
 # ------------------------------------------------------------------------------
 # Flask server start karva mate main entry point (Port 5000 par run thase).
 if __name__ == '__main__':
-    print("Starting Diabetes Detection System Flask Application...")
+    print("=" * 65)
+    print("  DIABETES DETECTION SYSTEM (DDS) — FLASK SERVER")
+    print("  Access the app at: http://127.0.0.1:5000")
+    print("  Press Ctrl+C in this terminal to stop the server.")
+    print("=" * 65)
     app.run(host='0.0.0.0', port=5000, debug=True)

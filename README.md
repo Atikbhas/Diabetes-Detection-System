@@ -46,6 +46,7 @@ The system predicts diabetes risk based on 8 clinical physiological parameters, 
 git clone https://github.com/Atikbhas/Diabetes-Detection-System.git
 cd Diabetes-Detection-System
 ```
+> **Partner Repository:** [JaySitapara18/Diabetes-Detection-System](https://github.com/JaySitapara18/Diabetes-Detection-System)
 
 ### 2. Install Dependencies
 ```bash

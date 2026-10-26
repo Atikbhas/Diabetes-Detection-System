@@ -8,7 +8,7 @@
 
 import sqlite3
 import os
-from werkzeug.security import generate_password_hash
+from werkzeug.security import generate_password_hash  # type: ignore[import-not-found]
 
 def init_database():
     base_dir = os.path.dirname(os.path.abspath(__file__))
